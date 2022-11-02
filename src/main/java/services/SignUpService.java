@@ -1,29 +1,26 @@
 package services;
 
-import repository.UserDao;
+import exceptions.ConnectingDbException;
 import exceptions.LoadingDbException;
 import model.User;
+import repository.UserDao;
+import repository.impl.UserDaoImpl;
+import util.PasswordEncoder;
 
 import java.util.Objects;
 
 public class SignUpService {
-    private UserDao userDao;
+    private UserDao userDao = new UserDaoImpl();
 
-    // todo add exceptions when handling with sql queries
-    public boolean userAlreadyExist(User user) {
-        return Objects.nonNull(userDao.findUserByEmail(user.getEmail()))
-                || Objects.nonNull(userDao.findUserByUsername(user.getUsername()));
+    public boolean userAlreadyExist(User user) throws ConnectingDbException, LoadingDbException {
+        return Objects.nonNull(userDao.findUserByUsername(user.getUsername()));
     }
 
     public void signUp(User user) throws LoadingDbException {
-        try {
-            String password = passwordEncoder.encode(account.getPassword());
-
-            account.setPassword(password);
-            accountsRepository.save(account);
-        } catch (DbException ex) {
-            throw new LoadingDataException("Failed to load account's data", ex);
-        }
+        PasswordEncoder passwordEncoder = new PasswordEncoder();
+        String password = passwordEncoder.encode(user.getPassword());
+        user.setPassword(password);
+        userDao.insert(user);
     }
 
 }
