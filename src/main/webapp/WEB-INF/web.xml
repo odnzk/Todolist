@@ -7,7 +7,7 @@
 
   <!-- Config here. -->
   <welcome-file-list>
-    <welcome-file>/WEB-INF/jsp/details_page.jsp</welcome-file>
+    <welcome-file>/WEB-INF/jsp/login.jsp</welcome-file>
   </welcome-file-list>
 </web-app>
 <!--<!DOCTYPE web-app PUBLIC-->
