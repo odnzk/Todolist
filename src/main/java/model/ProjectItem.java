@@ -2,10 +2,13 @@ package model;
 
 public class ProjectItem {
     private Long id;
+    private Long projectId;
     private String title;
     private boolean isCompleted;
 
-    public ProjectItem(String title, boolean isCompleted) {
+    public ProjectItem(Long id, Long projectId, String title, boolean isCompleted) {
+        this.id = id;
+        this.projectId = projectId;
         this.title = title;
         this.isCompleted = isCompleted;
     }
@@ -28,6 +31,14 @@ public class ProjectItem {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
 
     public void setCompleted(boolean completed) {

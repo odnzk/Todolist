@@ -8,8 +8,8 @@
 <%@ page import="java.util.List" %>
 
 
-<%! List<UiProjectWithItems> list = Collections.emptyList(); %>
-<% list  = (List<UiProjectWithItems>) session.getAttribute("uiProjects");%>
+<%--<%! List<UiProjectWithItems> list = Collections.emptyList(); %>--%>
+<%--<% list  = (List<UiProjectWithItems>) session.getAttribute("uiProjects");%>--%>
 
 <t:mainLayout title="Home">
 <!--NAV-->
@@ -18,7 +18,7 @@
 <!--HEADER-->
 <div class="d-container-fluid p-3 mt-2">
 
-    <h3><%= list %></h3>
+<%--    <h3><%= list %></h3>--%>
 
     <h3><b>List of projects</b></h3>
     <div class="d-flex justify-content-end">

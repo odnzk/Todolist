@@ -5,15 +5,24 @@ import java.util.Set;
 
 public class Project {
     private Long id;
+    private Long userId;
     private String title;
-    private Set<Integer> projectItemIds;
     private boolean isCompleted;
-    private Date startDate; //Date startDate (to count time until deadline)
+    private Date startDate;
     private Date deadlineDate;
 
-    public Project(String title, Set<Integer> projectItemIds, boolean isCompleted, Date startDate, Date deadlineDate) {
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Project(Long id, Long userId, String title, boolean isCompleted, Date startDate, Date deadlineDate) {
+        this.id = id;
+        this.userId = userId;
         this.title = title;
-        this.projectItemIds = projectItemIds;
         this.isCompleted = isCompleted;
         this.startDate = startDate;
         this.deadlineDate = deadlineDate;
@@ -33,14 +42,6 @@ public class Project {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Set<Integer> getProjectItemIds() {
-        return projectItemIds;
-    }
-
-    public void setProjectItemIds(Set<Integer> projectItemIds) {
-        this.projectItemIds = projectItemIds;
     }
 
     public boolean isCompleted() {

@@ -40,7 +40,6 @@ public class LoginServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-
         try(Connection conn = AppDatabase.getConnection();
             PreparedStatement preparedStatement = conn.prepareStatement("select * from users where username = ?");
         ){

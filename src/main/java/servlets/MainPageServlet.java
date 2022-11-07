@@ -34,9 +34,9 @@ public class MainPageServlet extends HttpServlet {
         User user = (User) req.getSession().getAttribute("user");
         UiProjectService projectService = new UiProjectService(user);
 
-        List<UiProjectWithItems> uiProjects = projectService.getAllUiProjects();
-        uiProjects.add(new UiProjectWithItems());
-        req.getSession().setAttribute("uiProjects", uiProjects);
+//        List<UiProjectWithItems> uiProjects = projectService.getAllUiProjects();
+//        uiProjects.add(new UiProjectWithItems());
+//        req.getSession().setAttribute("uiProjects", uiProjects);
 
         resp.setContentType("text/html;charset=UTF-8");
         req.getRequestDispatcher("main_page.jsp").forward(req, resp);
