@@ -5,14 +5,15 @@ import exceptions.LoadingDbException;
 import mapper.UserMapper;
 import model.User;
 import repository.UserDao;
+import util.AppDatabase;
 import util.SimpleJdbcTemplate;
 
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
-    private final String SQL_CREATE_USER = "insert into users(username, email, projectIds, password) " +
-            "values (?, ?, ?, ?)"; // todo how to hol OtM in database??
+    private final String SQL_CREATE_USER = "insert into users(username, email, password) values (?, ?, ?)";
     private final String SQL_DELETE_USER = "delete from users cascade where id = ?";
     private final String SQL_SELECT_BY_USERNAME = "select * from users where username = ?";
     private final String SQL_UPDATE_USER = "update users\n" +
@@ -20,8 +21,14 @@ public class UserDaoImpl implements UserDao {
             "WHERE course_id = 2\n" +
             "RETURNING *;"; // todo
 
-    private final UserMapper userMapper = new UserMapper();
-    private final SimpleJdbcTemplate simpleJdbcTemplate = new SimpleJdbcTemplate();
+
+    private final UserMapper userMapper;
+    private final SimpleJdbcTemplate simpleJdbcTemplate;
+
+    public UserDaoImpl(UserMapper userMapper, SimpleJdbcTemplate simpleJdbcTemplate) {
+        this.userMapper = userMapper;
+        this.simpleJdbcTemplate = simpleJdbcTemplate;
+    }
 
     @Override
     public void insert(User user) throws LoadingDbException {
@@ -48,6 +55,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Optional<User> findUserByUsername(String username) throws ConnectingDbException, LoadingDbException {
         List<User> users = simpleJdbcTemplate.query(SQL_SELECT_BY_USERNAME, userMapper, username);
+        if(users.size() == 0){
+            return Optional.empty();
+        }
         return Optional.ofNullable(users.get(0));
     }
 

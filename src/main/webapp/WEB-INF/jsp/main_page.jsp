@@ -1,14 +1,25 @@
+<%@ page import="model.ui.UiProjectWithItems" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Collections" %>
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ page import="model.ui.UiProjectWithItems" %>
+<%@ page import="java.util.List" %>
+
+
+<%! List<UiProjectWithItems> list = Collections.emptyList(); %>
+<% list  = (List<UiProjectWithItems>) session.getAttribute("uiProjects");%>
 
 <t:mainLayout title="Home">
 <!--NAV-->
-<div class="d-container-inline-fluid"> <jsp:include page="nav_menu.jsp" /></div>
+<%--<div class="d-container-inline-fluid"> <jsp:include page="../parts/nav_menu.jsp" /></div>--%>
 
-<%--<div class="p-3">cwjoeij</div>--%>
 <!--HEADER-->
 <div class="d-container-fluid p-3 mt-2">
+
+    <h3><%= list %></h3>
+
     <h3><b>List of projects</b></h3>
     <div class="d-flex justify-content-end">
         <button type="button" class="btn btn-primary pl-24 pr-24  mr-1">Add</button>

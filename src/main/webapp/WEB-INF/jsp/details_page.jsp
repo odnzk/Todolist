@@ -5,7 +5,7 @@
 <t:mainLayout title="Details">
     <!--NAV-->
     <div class="d-container-inline-fluid">
-        <jsp:include page="nav_menu.jsp"/>
+        <jsp:include page="../parts/nav_menu.jsp"/>
     </div>
 
     <%--<div class="p-3">cwjoeij</div>--%>

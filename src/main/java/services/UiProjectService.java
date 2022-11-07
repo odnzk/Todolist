@@ -23,7 +23,6 @@ public class UiProjectService {
         this.user = user;
     }
 
-    // for main page
     public List<UiProjectWithItems> getAllUiProjects() {
         List<UiProjectWithItems> uiProjects = List.of();
 

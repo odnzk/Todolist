@@ -39,14 +39,15 @@ public class UserValidator implements Validator<User> {
     }
 
     @Override
-    public boolean validate(User entity) {
-        if (checkIfNull(entity.getUsername(), entity.getEmail(), entity.getPassword())) {
+    public boolean validate(User user) {
+        if (checkIfNull(user.getUsername(), user.getEmail(), user.getPassword())) {
             return false;
         }
-        return isAnyBlank(entity.getPassword(), entity.getEmail(), entity.getUsername())
-                && checkUsername(entity.getUsername())
-                && checkEmail(entity.getEmail())
-                && checkPassword(entity.getPassword());
+        return true;
+//        return isAnyBlank(user.getPassword(), user.getEmail(), user.getUsername())
+//                && checkUsername(user.getUsername())
+//                && checkEmail(user.getEmail())
+//                && checkPassword(user.getPassword());
     }
 
 }

@@ -11,32 +11,33 @@ import java.util.List;
 public class SimpleJdbcTemplate {
 
     public <T> List<T> query(String sql, RowMapper<T> rowMapper, Object... objects) throws LoadingDbException {
-        List<T> resList = new ArrayList<>();
-        try (Connection connection = AppDatabase.getConnection();
-             PreparedStatement prepStatement = connection.prepareStatement(sql)) {
+        List<T> reslist = new ArrayList<>();
+        try(Connection conn = AppDatabase.getConnection();
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        ){
             int position = 1;
             for (Object obj : objects) {
-                prepStatement.setObject(position, obj);
-                position++;
+                preparedStatement.setObject(position++, obj);
             }
-            ResultSet resultSet = prepStatement.executeQuery();
-            if (resultSet != null) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 int pos = 1;
-                while (resultSet.next()) {
-                    resList.add(rowMapper.mapRow(resultSet, pos));
-                    pos++;
+                if(resultSet != null) {
+                    while (resultSet.next()){
+                        reslist.add(rowMapper.mapRow(resultSet, pos));
+                        pos++;
+                    }
                 }
             }
-        } catch (SQLException | ConnectingDbException e) {
-            throw new LoadingDbException("Connection to db failed while querying mes: " + e.getMessage());
+        } catch (SQLException|ConnectingDbException e) {
+            throw new LoadingDbException("Connecting to db error");
         }
-        return resList;
+        return reslist;
     }
 
     public int update(String sql, Object... objects) throws LoadingDbException {
         int id = -1;
-        try (Connection connection = AppDatabase.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
+        try (Connection conn = AppDatabase.getConnection();
+             PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ) {
             int position = 1;
             for (Object obj : objects) {
@@ -44,12 +45,17 @@ public class SimpleJdbcTemplate {
             }
             preparedStatement.execute();
 
-            ResultSet rs = preparedStatement.getGeneratedKeys();
-            while (rs.next()) {
-                id = rs.getInt(1);
+            try {
+                ResultSet rs = preparedStatement.getGeneratedKeys();
+                while (rs.next()) {
+                    id = rs.getInt(1);
+                }
+            } catch (SQLException e) {
+                throw new LoadingDbException("Connecting to db error");
             }
-        } catch (SQLException | ConnectingDbException e) {
-            throw new LoadingDbException("Connection to db failed while updating  mes: " + e.getMessage());
+
+        } catch (SQLException|ConnectingDbException ex) {
+            throw new LoadingDbException("Connecting to db error");
         }
         return id;
     }

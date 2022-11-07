@@ -4,6 +4,9 @@ public class PasswordEncoder {
 
     // todo
     public String encode(String password) {
-        return "";
+        return password;
+    }
+    public String decode(String password) {
+        return password;
     }
 }
