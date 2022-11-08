@@ -3,25 +3,23 @@ package listener;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
-import services.AchievementService;
-import services.UserAchievementService;
-import util.jdbc.AppDataSource;
-import util.jdbc.mapper.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import repository.impl.*;
-import services.AuthService;
-import services.UiProjectService;
+import services.*;
 import util.PasswordEncoder;
+import util.jdbc.AppDataSource;
+import util.jdbc.mapper.*;
 
 
 @WebListener
 public class InitListener implements ServletContextListener {
     public static final String KEY_AUTH_SERVICE = "authService";
-//    public static final String KEY_USER_DAO = "userDao";
+    //    public static final String KEY_USER_DAO = "userDao";
 //    public static final String KEY_PROJECT_DAO = "projectDao";
 //    public static final String KEY_PROJECT_ITEM_DAO = "projectItemDao";
 //    public static final String KEY_ACHIEVEMENT_DAO = "achievementDao";
 //    public static final String KEY_USER_ACHIEVEMENT_DAO = "userAchievementDao";
+    public static final String KEY_UI_PROJECT_SERVICE = "ui-projectService";
     public static final String KEY_PROJECT_SERVICE = "projectService";
     public static final String KEY_ACHIEVEMENT_SERVICE = "achievementService";
     public static final String KEY_USER_ACHIEVEMENT_SERVICE = "userAchievementService";
@@ -45,10 +43,10 @@ public class InitListener implements ServletContextListener {
 //        sce.getServletContext().setAttribute(KEY_USER_ACHIEVEMENT_DAO, userAchievementsDao);
 
         sce.getServletContext().setAttribute(KEY_AUTH_SERVICE, new AuthService(userDao, passwordEncoder));
-        sce.getServletContext().setAttribute(KEY_PROJECT_SERVICE, new UiProjectService(projectDao, projectItemDao));
+        sce.getServletContext().setAttribute(KEY_UI_PROJECT_SERVICE, new UiProjectService(projectDao, projectItemDao));
         sce.getServletContext().setAttribute(KEY_ACHIEVEMENT_SERVICE, new AchievementService(achievementsDao));
         sce.getServletContext().setAttribute(KEY_USER_ACHIEVEMENT_SERVICE, new UserAchievementService(userAchievementsDao));
-
+        sce.getServletContext().setAttribute(KEY_PROJECT_SERVICE, new ProjectService(projectDao));
 
     }
 }

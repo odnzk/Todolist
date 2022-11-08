@@ -11,4 +11,6 @@ public interface ProjectDao extends GeneralDao<Project>{
     Optional<List<Project>> findProjectsLinkedToUser(long userId);
 
     Optional<Project> findProject(long projectId);
+
+    void deleteAll(long userId);
 }

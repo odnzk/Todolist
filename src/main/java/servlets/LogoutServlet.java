@@ -1,33 +1,29 @@
 package servlets;
 
-import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.User;
+import listener.InitListener;
 import services.AuthService;
 
 import java.io.IOException;
 
-@WebServlet("/profile")
-public class ProfileServlet extends HttpServlet {
+@WebServlet("/logout")
+public class LogoutServlet extends HttpServlet {
+    private AuthService service;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
+    public void init() throws ServletException {
+        super.init();
+        service = (AuthService) getServletContext().getAttribute(InitListener.KEY_AUTH_SERVICE);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = (User) req.getSession().getAttribute(AuthService.USER_ATTRIBUTE);
-
-        req.setAttribute("username", user.getUsername());
-        req.setAttribute("email", user.getEmail());
-
-        resp.setContentType("text/html;charset=UTF-8");
-        req.getRequestDispatcher("/WEB-INF/jsp/profile.jsp").forward(req, resp);
+        service.logout(req);
+        resp.sendRedirect(req.getContextPath());
     }
 
     @Override

@@ -10,13 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import listener.InitListener;
 import model.User;
 import services.AuthService;
-import util.AppDatabase;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Optional;
 
 @WebServlet("/login")
@@ -40,42 +35,21 @@ public class LoginServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        try(Connection conn = AppDatabase.getConnection();
-            PreparedStatement preparedStatement = conn.prepareStatement("select * from users where username = ?");
-        ){
-            preparedStatement.setString(1, "usertest");
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if(resultSet != null) {
-                    while (resultSet.next()){
-                        resp.getWriter().println(resultSet.toString());
-                    }
-                }
-            }
-        } catch (SQLException |ConnectingDbException e) {
-
-        }
-
-
         try {
-            resp.getWriter().println("??");
             Optional<User> user = service.findUser(username);
-            if(user.isEmpty()){
+            if (user.isEmpty()) {
                 resp.getWriter().println("There is no user with this username");
-//                req.setAttribute("message", "There is no user with this username");
-            }else{
-                resp.getWriter().println("?");
-                if(service.login(username, password)){
-                    resp.getWriter().println("mdaaaa");
+            } else {
+                if (service.login(username, password)) {
                     service.auth(user.get(), req);
-                    resp.getWriter().println("mda");
                     resp.setContentType("text/html;charset=UTF-8");
-                    req.getRequestDispatcher("/WEB-INF/jsp/main_page.jsp").forward(req, resp);
-                }else{
+                    resp.sendRedirect(req.getContextPath() + "/home");
+//                    req.getRequestDispatcher("/WEB-INF/jsp/main_page.jsp").forward(req, resp);
+                } else {
                     resp.getWriter().println("Wrong password");
-//                    req.setAttribute("message", "Wrong password");
                 }
             }
-        } catch (ConnectingDbException|LoadingDbException e) {
+        } catch (ConnectingDbException | LoadingDbException e) {
             e.printStackTrace();
         }
     }

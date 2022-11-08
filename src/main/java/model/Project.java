@@ -28,6 +28,14 @@ public class Project {
         this.deadlineDate = deadlineDate;
     }
 
+    public Project(Long userId, String title, Date startDate, Date deadlineDate) {
+        this.userId = userId;
+        this.title = title;
+        this.isCompleted = false;
+        this.startDate = startDate;
+        this.deadlineDate = deadlineDate;
+    }
+
     public Long getId() {
         return id;
     }

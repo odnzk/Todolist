@@ -3,15 +3,13 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:mainLayout title="Login">
-
     <div class="d-flex justify-content-center">
-
 
         <form method="post" action="login" class="w-50 p-5">
             <h1>Login</h1>
             <br>
 
-            <c:if test="${message != null}"><h2>${message}</h2></c:if>
+            <c:if test="${requestScope.message != null}"><h2>${requestScope.message}</h2></c:if>
 
             <div>
                 <label for="username" class="form-label">Username</label>

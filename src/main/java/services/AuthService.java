@@ -9,6 +9,7 @@ import repository.impl.UserDaoImpl;
 import util.PasswordEncoder;
 
 import java.util.Optional;
+// todo
 
 public class AuthService {
     public final static String USER_ATTRIBUTE = "user";
@@ -30,7 +31,11 @@ public class AuthService {
     }
 
     public void auth(User user, HttpServletRequest req) {
-        req.getSession().setAttribute("user", user);
+        req.getSession().setAttribute(USER_ATTRIBUTE, user);
+    }
+
+    public void logout(HttpServletRequest req) {
+        req.getSession().removeAttribute(USER_ATTRIBUTE);
     }
 
     public void signup(User user) throws LoadingDbException {
@@ -41,7 +46,8 @@ public class AuthService {
 
     public boolean login(String username, String password) throws ConnectingDbException, LoadingDbException {
         User user = userDao.findUserByUsername(username).get();
-        return user.getPassword().equals(passwordEncoder.encode(password));
+        return user.getPassword().equals(password);
+//        return user.getPassword().equals(passwordEncoder.encode(password));
     }
 
 }

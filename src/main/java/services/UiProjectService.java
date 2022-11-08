@@ -27,11 +27,13 @@ public class UiProjectService {
         List<Project> projectList = projectDao.findProjectsLinkedToUser(user.getId()).orElse(List.of());
         for (Project project : projectList) {
             List<ProjectItem> items = projectItemDao.findProjectsLinkedToProject(project.getId()).orElse(List.of());
+            int countItems = items.size(); // 10
             items = items
                     .stream()
                     .filter(item -> !item.isCompleted())
-                    .collect(Collectors.toList());
-            uiProjects.add(new UiProjectWithItems(project, items));
+                    .collect(Collectors.toList()); //4
+            int progress = (int) ((1 - items.size() / (double )countItems)*100);
+            uiProjects.add(new UiProjectWithItems(project, items, progress));
         }
 
         uiProjects.sort((o1, o2) -> -Boolean.compare(o1.getProject().isCompleted(),

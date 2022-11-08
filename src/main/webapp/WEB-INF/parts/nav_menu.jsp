@@ -32,10 +32,6 @@
                 </li>
             </c:if>
 
-
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Features</a>
-            </li>
         </ul>
     </div>
 </nav>

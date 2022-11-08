@@ -10,8 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class ProjectDaoImpl implements ProjectDao {
-    private static final String SQL_CREATE_PROJECT = "insert into projects(userId, title, is_completed, start_date, finish_date) values (?, ?, ?, ?, ?);";
+    private static final String SQL_CREATE_PROJECT = "insert into projects(userId, title, is_completed, start_date, finish_date) values (?, ?, ?, ?, ?)";
     private static final String SQL_DELETE_PROJECT = "delete from projects where id = ?";
+    private static final String SQL_DELETE_ALL = "delete from projects where userId = ?";
     private static final String SQL_SELECT_BY_ID = "select * from projects where id = ? limit 1";
     private static final String SQL_SELECT_BY_USER_ID = "select * from projects where userid = ?";
 
@@ -70,5 +71,10 @@ public class ProjectDaoImpl implements ProjectDao {
         }
 //        Project res = jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, projectMapper, projectId);
 //        return Optional.ofNullable(res);
+    }
+
+    @Override
+    public void deleteAll(long userId) {
+        jdbcTemplate.update(SQL_DELETE_PROJECT, userId);
     }
 }
