@@ -1,7 +1,8 @@
 package repository.impl;
 
-import mapper.UserMapper;
+import util.jdbc.mapper.UserMapper;
 import model.User;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import repository.UserDao;
 
@@ -55,11 +56,19 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findUserByUsername(String username) {
-        User res = jdbcTemplate.queryForObject(
-                SQL_SELECT_BY_USERNAME,
-                userMapper,
-                username);
-        return Optional.ofNullable(res);
+        try{
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
+                    SQL_SELECT_BY_USERNAME,
+                    userMapper,
+                    username));
+        }catch (EmptyResultDataAccessException e){
+            return Optional.empty();
+        }
+//        User res = jdbcTemplate.queryForObject(
+//                SQL_SELECT_BY_USERNAME,
+//                userMapper,
+//                username);
+//        return Optional.ofNullable(res);
     }
 
 }

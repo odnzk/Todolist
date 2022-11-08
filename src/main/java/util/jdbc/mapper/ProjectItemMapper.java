@@ -1,4 +1,4 @@
-package mapper;
+package util.jdbc.mapper;
 
 import model.ProjectItem;
 import org.springframework.jdbc.core.RowMapper;

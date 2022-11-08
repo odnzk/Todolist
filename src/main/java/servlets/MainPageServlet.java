@@ -17,10 +17,12 @@ import java.util.List;
 
 @WebServlet("/home")
 public class MainPageServlet extends HttpServlet {
+    private UiProjectService projectService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+        projectService = (UiProjectService) getServletContext().getAttribute(InitListener.KEY_PROJECT_SERVICE);
     }
 
     @Override
@@ -31,12 +33,10 @@ public class MainPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        User user = (User) req.getSession().getAttribute("user");
-        UiProjectService projectService = new UiProjectService(user);
+        User user = (User) req.getSession().getAttribute(AuthService.USER_ATTRIBUTE);
+        List<UiProjectWithItems> uiProjects = projectService.getAllUiProjects(user);
 
-//        List<UiProjectWithItems> uiProjects = projectService.getAllUiProjects();
-//        uiProjects.add(new UiProjectWithItems());
-//        req.getSession().setAttribute("uiProjects", uiProjects);
+        req.getSession().setAttribute("uiProjects", uiProjects);
 
         resp.setContentType("text/html;charset=UTF-8");
         req.getRequestDispatcher("main_page.jsp").forward(req, resp);

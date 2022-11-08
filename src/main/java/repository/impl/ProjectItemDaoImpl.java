@@ -1,7 +1,8 @@
 package repository.impl;
 
-import mapper.ProjectItemMapper;
+import util.jdbc.mapper.ProjectItemMapper;
 import model.ProjectItem;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import repository.ProjectItemDao;
 
@@ -50,13 +51,23 @@ public class ProjectItemDaoImpl implements ProjectItemDao {
 
     @Override
     public Optional<List<ProjectItem>> findProjectsLinkedToProject(long projectId) {
-        List<ProjectItem> res = jdbcTemplate.query(SQL_SELECT_BY_PROJECT_ID, projectItemMapper, projectId);
-        return Optional.of(res);
+        try {
+            return Optional.ofNullable(jdbcTemplate.query(SQL_SELECT_BY_PROJECT_ID, projectItemMapper, projectId));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+//        List<ProjectItem> res = jdbcTemplate.query(SQL_SELECT_BY_PROJECT_ID, projectItemMapper, projectId);
+//        return Optional.of(res);
     }
 
     @Override
     public Optional<ProjectItem> findProjectItem(long projectItemId) {
-        ProjectItem res = jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, projectItemMapper, projectItemId);
-        return Optional.ofNullable(res);
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, projectItemMapper, projectItemId));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+//        ProjectItem res = jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, projectItemMapper, projectItemId);
+//        return Optional.ofNullable(res);
     }
 }

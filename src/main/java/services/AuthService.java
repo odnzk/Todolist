@@ -5,22 +5,16 @@ import exceptions.LoadingDbException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.User;
-import repository.UserDao;
 import repository.impl.UserDaoImpl;
-import util.AppDatabase;
 import util.PasswordEncoder;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Optional;
 
 public class AuthService {
-    private final static String USER_ATTRIBUTE = "user";
+    public final static String USER_ATTRIBUTE = "user";
 
-    private UserDaoImpl userDao;
-    private PasswordEncoder passwordEncoder;
+    private final UserDaoImpl userDao;
+    private final PasswordEncoder passwordEncoder;
 
     public AuthService(UserDaoImpl userDao, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
@@ -31,11 +25,11 @@ public class AuthService {
         return userDao.findUserByUsername(username);
     }
 
-    public boolean isAuth( HttpServletRequest req, HttpServletResponse res){
+    public boolean isAuth(HttpServletRequest req, HttpServletResponse res) {
         return req.getSession().getAttribute(USER_ATTRIBUTE) != null;
     }
 
-    public void auth(User user, HttpServletRequest req){
+    public void auth(User user, HttpServletRequest req) {
         req.getSession().setAttribute("user", user);
     }
 

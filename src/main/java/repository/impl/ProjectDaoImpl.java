@@ -1,7 +1,8 @@
 package repository.impl;
 
-import mapper.ProjectMapper;
+import util.jdbc.mapper.ProjectMapper;
 import model.Project;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import repository.ProjectDao;
 
@@ -51,13 +52,23 @@ public class ProjectDaoImpl implements ProjectDao {
 
     @Override
     public Optional<List<Project>> findProjectsLinkedToUser(long userId) {
-        List<Project> res = jdbcTemplate.query(SQL_SELECT_BY_USER_ID, projectMapper, userId);
-        return Optional.of(res);
+        try {
+            return Optional.ofNullable(jdbcTemplate.query(SQL_SELECT_BY_USER_ID, projectMapper, userId));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+//        List<Project> res = jdbcTemplate.query(SQL_SELECT_BY_USER_ID, projectMapper, userId);
+//        return Optional.of(res);
     }
 
     @Override
     public Optional<Project> findProject(long projectId) {
-        Project res = jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, projectMapper, projectId);
-        return Optional.ofNullable(res);
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, projectMapper, projectId));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+//        Project res = jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, projectMapper, projectId);
+//        return Optional.ofNullable(res);
     }
 }

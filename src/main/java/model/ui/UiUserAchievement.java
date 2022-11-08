@@ -1,16 +1,14 @@
-package model;
+package model.ui;
 
-public class Achievement {
+public class UiUserAchievement {
     private Long id;
     private String title;
+    private Boolean isUnlocked;
 
-    public Achievement(Long id, String title) {
+    public UiUserAchievement(Long id, String title, Boolean isUnlocked) {
         this.id = id;
         this.title = title;
-    }
-
-    public Achievement(String title) {
-        this.title = title;
+        this.isUnlocked = isUnlocked;
     }
 
     public Long getId() {
@@ -27,5 +25,13 @@ public class Achievement {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Boolean getUnlocked() {
+        return isUnlocked;
+    }
+
+    public void setUnlocked(Boolean unlocked) {
+        isUnlocked = unlocked;
     }
 }
