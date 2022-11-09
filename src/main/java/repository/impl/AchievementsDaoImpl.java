@@ -1,14 +1,11 @@
 package repository.impl;
 
-import util.jdbc.mapper.AchievementsMapper;
 import model.Achievement;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import repository.dao.GeneralDao;
+import repository.dao.AchievementDao;
+import util.jdbc.mapper.AchievementsMapper;
 
-import java.util.Optional;
-
-public class AchievementsDaoImpl implements GeneralDao<Achievement> {
+public class AchievementsDaoImpl implements AchievementDao {
     private static final String SQL_CREATE_ACHIEVEMENT = "insert into achievements(title, category) values (?, ?)";
     private static final String SQL_DELETE_ACHIEVEMENT = "delete from achievements where achievementId = ?";
     private static final String SQL_SELECT_BY_ID = "select * from achievements where achievementId = ? limit 1";
@@ -28,8 +25,8 @@ public class AchievementsDaoImpl implements GeneralDao<Achievement> {
     }
 
     @Override
-    public void delete(Achievement item) {
-        jdbcTemplate.update(SQL_DELETE_ACHIEVEMENT, item.getId());
+    public void delete(Long itemId) {
+        jdbcTemplate.update(SQL_DELETE_ACHIEVEMENT, itemId);
     }
 
     @Override
@@ -38,14 +35,14 @@ public class AchievementsDaoImpl implements GeneralDao<Achievement> {
     }
 
     // todo move to interface
-    public Optional<Achievement> select(long achievementId) {
-        try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(
-                    SQL_SELECT_BY_ID,
-                    achievementsMapper,
-                    achievementId));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
-    }
+//    public Optional<Achievement> select(long achievementId) {
+//        try {
+//            return Optional.ofNullable(jdbcTemplate.queryForObject(
+//                    SQL_SELECT_BY_ID,
+//                    achievementsMapper,
+//                    achievementId));
+//        } catch (EmptyResultDataAccessException e) {
+//            return Optional.empty();
+//        }
+//    }
 }

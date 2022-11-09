@@ -1,10 +1,10 @@
 package repository.impl;
 
-import util.jdbc.mapper.ProjectMapper;
 import model.Project;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import repository.dao.ProjectDao;
+import util.jdbc.mapper.ProjectMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,8 +36,8 @@ public class ProjectDaoImpl implements ProjectDao {
     }
 
     @Override
-    public void delete(Project item) {
-        jdbcTemplate.update(SQL_DELETE_PROJECT, item.getId());
+    public void delete(Long itemId) {
+        jdbcTemplate.update(SQL_DELETE_PROJECT, itemId);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ProjectDaoImpl implements ProjectDao {
     }
 
     @Override
-    public Optional<List<Project>> findProjectsLinkedToUser(long userId) {
+    public Optional<List<Project>> findProjectsLinkedToUser(Long userId) {
         try {
             return Optional.ofNullable(jdbcTemplate.query(SQL_SELECT_BY_USER_ID, projectMapper, userId));
         } catch (EmptyResultDataAccessException e) {
@@ -63,7 +63,7 @@ public class ProjectDaoImpl implements ProjectDao {
     }
 
     @Override
-    public Optional<Project> findProject(long projectId) {
+    public Optional<Project> findProject(Long projectId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, projectMapper, projectId));
         } catch (EmptyResultDataAccessException e) {
@@ -74,7 +74,7 @@ public class ProjectDaoImpl implements ProjectDao {
     }
 
     @Override
-    public void deleteAll(long userId) {
+    public void deleteAll(Long userId) {
         jdbcTemplate.update(SQL_DELETE_PROJECT, userId);
     }
 }

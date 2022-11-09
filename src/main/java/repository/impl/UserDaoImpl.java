@@ -1,20 +1,16 @@
 package repository.impl;
 
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
-import util.jdbc.mapper.UserMapper;
 import model.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import repository.dao.UserDao;
+import util.jdbc.mapper.UserMapper;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
     private static final String SQL_CREATE_USER = "insert into users(username, email, password) values (?, ?, ?) returning id";
-    private static final String SQL_DELETE_USER = "delete from users where username = ?";
+    private static final String SQL_DELETE_USER = "delete from users where id = ?";
     private static final String SQL_SELECT_BY_USERNAME = "select * from users where username = ? limit 1";
 
     private static final String SQL_UPDATE_USERNAME = "update users set username = ? where id=?;";
@@ -40,8 +36,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void delete(User user) {
-        jdbcTemplate.update(SQL_DELETE_USER, user.getUsername());
+    public void delete(Long itemId) {
+        jdbcTemplate.update(SQL_DELETE_USER, itemId);
     }
 
     @Override
@@ -60,12 +56,12 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findUserByUsername(String username) {
-        try{
+        try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
                     SQL_SELECT_BY_USERNAME,
                     userMapper,
                     username));
-        }catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }

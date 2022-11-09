@@ -7,7 +7,9 @@ import model.User;
 
 import java.util.Optional;
 
-// CRUD
-public interface UserDao extends GeneralDao<User>{
+public interface UserDao{
+   void insert(User user);
+   void delete(Long itemId);
+   void update(User user);
    Optional<User> findUserByUsername(String username) throws ConnectingDbException, LoadingDbException;
 }

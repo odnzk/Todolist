@@ -8,7 +8,8 @@
             let btn = document.getElementById('logOut');
             function logOut() {
                 if (confirm('Are you sure you want to log out?')) {
-                    window.location.replace('http://localhost:9090/SemesterProject/logout');
+                    document.location = '${pageContext.request.contextPath}/logout';
+                    // window.location.replace('http://localhost:9090/SemesterProject/logout');
                 }
             }
 

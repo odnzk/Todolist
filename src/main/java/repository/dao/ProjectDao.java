@@ -6,10 +6,17 @@ import java.util.List;
 import java.util.Optional;
 
 // PROJECT_DAO find projects by id ( userId : Long ) : Optional<List<Project>>
-public interface ProjectDao extends GeneralDao<Project>{
-    Optional<List<Project>> findProjectsLinkedToUser(long userId);
+public interface ProjectDao {
+    void insert(Project item);
 
-    Optional<Project> findProject(long projectId);
+    void delete(Long itemId);
 
-    void deleteAll(long userId);
+    void update(Project item);
+
+    Optional<Project> findProject(Long projectId);
+
+    void deleteAll(Long userId);
+
+    Optional<List<Project>> findProjectsLinkedToUser(Long userId);
+
 }

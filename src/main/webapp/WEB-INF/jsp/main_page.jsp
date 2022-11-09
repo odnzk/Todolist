@@ -12,28 +12,46 @@
     <script>
         document.addEventListener('DOMContentLoaded', function (url) {
 
-            // const list = document.getElementsByClassName('project-item-label')
-            // for (let item of list) {
-            //    item.classList.add('completed-project-item')
-            // }
-
             const btnAdd = document.getElementById('addProject');
             const btnClear = document.getElementById('clearAll');
+            const btnDeleteProject = document.getElementById('deleteProject');
 
             function addProject() {
                 $('#addProjectModal').modal('show');
 
             }
+
             function clearAllProjects() {
                 $('#clearAllModal').modal('show');
+            }
+
+            function deleteProject() {
+                const id = btnDeleteProject.classList.item(btnDeleteProject.classList.length - 1)
+                document.location = '${pageContext.request.contextPath}/delete/' + id;
+            }
+
+            function updateProjectItem(checkbox) {
+                const id = checkbox.classList.item(checkbox.classList.length - 1)
+                document.location = '${pageContext.request.contextPath}/updateProjectItem/' + id;
             }
 
             if (btnAdd) {
                 btnAdd.addEventListener('click', addProject);
             }
-            if(btnClear){
+            if (btnClear) {
                 btnClear.addEventListener('click', clearAllProjects)
             }
+            if (btnDeleteProject) {
+                btnDeleteProject.addEventListener('click', deleteProject)
+            }
+
+            Array.prototype
+                .slice
+                .call(document.getElementsByClassName('checkbox-project-item')).forEach(
+                cb => {
+                    cb.addEventListener('click', function () { updateProjectItem(cb); })
+                }
+            )
         });</script>
 
     <!-- MODALS -->
@@ -53,18 +71,25 @@
     <!--LIST OF PROJECTS-->
     <div class="container-fluid p-3 d-flex flex-wrap">
 
+        <c:if test="${requestScope.get('isUiProjectsEmpty')}">
+            <h3>There will be your projects</h3>
+        </c:if>
+
         <c:set var="uiProjects" value="${requestScope.get('uiProjects')}"/>
 
         <c:forEach var="uiProject" items="${uiProjects}">
             <div class="card mt-2" style="width: 20rem;">
                 <div class="card-body">
 
+                    <i class="bi bi-x-square-fill float-end ${uiProject.project.id}" id="deleteProject"></i>
+
                     <h5 class="card-title">${uiProject.project.title}</h5>
 
                     <div class="progress">
                         <div class="progress-bar progress-bar-striped" role="progressbar"
                              style="width: ${uiProject.progress}%" aria-valuenow="${uiProject.progress}"
-                             aria-valuemin="0" aria-valuemax="100">${uiProject.progress}%</div>
+                             aria-valuemin="0" aria-valuemax="100">${uiProject.progress}%
+                        </div>
                     </div>
 
                     </br>
@@ -72,7 +97,9 @@
                         <c:forEach var="uiProjectItem" items="${uiProject.listProjectItem}">
                             <li class="list-group-item">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" <c:if test="${uiProjectItem.done}">checked</c:if>>
+                                    <input class="form-check-input checkbox-project-item ${uiProjectItem.id}"
+                                           type="checkbox" value=""
+                                           <c:if test="${uiProjectItem.done}">checked</c:if>>
                                     <label class="form-check-label project-item-label <c:if test="${uiProjectItem.done}">completed-project-item</c:if>">
                                             ${uiProjectItem.title}
                                     </label>
@@ -82,9 +109,6 @@
                     </ul>
                     <br>
                     <t:itemForm projectId="${uiProject.project.id}"></t:itemForm>
-<%--                    <t:mainLayout title="Profile">--%>
-<%--                    <jsp:include page="/WEB-INF/parts/project_item_form.jsp"/>--%>
-<%--                    <button id="addProjectItem" type="button" class="btn btn-primary pl-24 pr-24">Add item</button>--%>
                 </div>
             </div>
         </c:forEach>

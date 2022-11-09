@@ -7,22 +7,22 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import listener.InitListener;
+import model.ProjectItem;
 import model.User;
-import model.ui.UiProjectWithItems;
 import services.AuthService;
-import services.UiProjectService;
+import services.ProjectItemService;
+import services.UserAchievementService;
 
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet("/home")
-public class MainPageServlet extends HttpServlet {
-    private UiProjectService projectService;
+@WebServlet("/updateProjectItem/*")
+public class UpdateProjectItemServlet extends HttpServlet {
+    private ProjectItemService projectItemService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        projectService = (UiProjectService) getServletContext().getAttribute(InitListener.KEY_UI_PROJECT_SERVICE);
+        projectItemService = (ProjectItemService) getServletContext().getAttribute(InitListener.KEY_PROJECT_ITEM_SERVICE);
     }
 
     @Override
@@ -31,15 +31,15 @@ public class MainPageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = (User) req.getSession().getAttribute(AuthService.USER_ATTRIBUTE);
-
-        List<UiProjectWithItems> uiProjects = projectService.getAllUiProjects(user);
-
-        req.setAttribute("isUiProjectsEmpty", uiProjects.isEmpty());
-        req.setAttribute("uiProjects", uiProjects);
-        req.setAttribute("context", getServletContext().getContextPath());
-
+        String strProjectItemId = req.getPathInfo().replace('/', ' ').trim();
+        try {
+            Long projectItemId = Long.parseLong(strProjectItemId);
+            projectItemService.update(projectItemId);
+        } catch (NumberFormatException e) {
+            resp.getWriter().println("Invalid data");
+        }
         resp.setContentType("text/html;charset=UTF-8");
-        req.getRequestDispatcher("/WEB-INF/jsp/main_page.jsp").forward(req, resp);
+        resp.sendRedirect(req.getContextPath() + "/home");
     }
+
 }

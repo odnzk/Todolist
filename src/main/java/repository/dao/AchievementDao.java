@@ -1,13 +1,12 @@
 package repository.dao;
 
 
-import exceptions.ConnectingDbException;
-import exceptions.LoadingDbException;
-import model.User;
+import model.Achievement;
 
-import java.util.Optional;
+public interface AchievementDao {
+    void insert(Achievement item);
 
-// CRUD
-public interface AchievementDao extends GeneralDao<User>{
-   Optional<User> findUserByUsername(String username) throws ConnectingDbException, LoadingDbException;
+    void delete(Long itemId);
+
+    void update(Achievement item);
 }

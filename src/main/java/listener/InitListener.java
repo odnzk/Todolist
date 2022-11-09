@@ -45,7 +45,7 @@ public class InitListener implements ServletContextListener {
 
         sce.getServletContext().setAttribute(KEY_AUTH_SERVICE, new AuthService(userDao, passwordEncoder));
         sce.getServletContext().setAttribute(KEY_UI_PROJECT_SERVICE, new UiProjectService(projectDao, projectItemDao));
-        sce.getServletContext().setAttribute(KEY_ACHIEVEMENT_SERVICE, new AchievementService(achievementsDao));
+//        sce.getServletContext().setAttribute(KEY_ACHIEVEMENT_SERVICE, new AchievementService(achievementsDao));
         sce.getServletContext().setAttribute(KEY_USER_ACHIEVEMENT_SERVICE, new UserAchievementService(userAchievementsDao));
         sce.getServletContext().setAttribute(KEY_PROJECT_SERVICE, new ProjectService(projectDao));
         sce.getServletContext().setAttribute(KEY_PROJECT_ITEM_SERVICE, new ProjectItemService(projectItemDao));

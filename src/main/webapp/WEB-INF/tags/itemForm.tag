@@ -10,5 +10,5 @@
         <input type="text" class="form-control" name="projectItemTitle" id="projectItemTitle"
                placeholder="Enter new project item" required>
     </div>
-    <input class="btn btn-primary" type="submit" value="Add">
+    <input class="btn btn-primary float-end" type="submit" value="Add">
 </form>

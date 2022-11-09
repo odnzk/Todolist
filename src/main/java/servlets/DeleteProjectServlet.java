@@ -7,22 +7,27 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import listener.InitListener;
+import model.Project;
 import model.User;
-import model.ui.UiProjectWithItems;
 import services.AuthService;
-import services.UiProjectService;
+import services.ProjectService;
+import services.UserAchievementService;
 
 import java.io.IOException;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
-@WebServlet("/home")
-public class MainPageServlet extends HttpServlet {
-    private UiProjectService projectService;
+@WebServlet("/delete/*")
+public class DeleteProjectServlet extends HttpServlet {
+    private ProjectService projectService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        projectService = (UiProjectService) getServletContext().getAttribute(InitListener.KEY_UI_PROJECT_SERVICE);
+        projectService = (ProjectService) getServletContext().getAttribute(InitListener.KEY_PROJECT_SERVICE);
     }
 
     @Override
@@ -31,15 +36,14 @@ public class MainPageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = (User) req.getSession().getAttribute(AuthService.USER_ATTRIBUTE);
-
-        List<UiProjectWithItems> uiProjects = projectService.getAllUiProjects(user);
-
-        req.setAttribute("isUiProjectsEmpty", uiProjects.isEmpty());
-        req.setAttribute("uiProjects", uiProjects);
-        req.setAttribute("context", getServletContext().getContextPath());
-
+        String strProjectId = req.getPathInfo().replace('/', ' ').trim();
+        try {
+            Long projectId = Long.parseLong(strProjectId);
+            projectService.delete(projectId);
+        } catch (NumberFormatException e) {
+            resp.getWriter().println("Invalid data");
+        }
         resp.setContentType("text/html;charset=UTF-8");
-        req.getRequestDispatcher("/WEB-INF/jsp/main_page.jsp").forward(req, resp);
+        resp.sendRedirect(req.getContextPath() + "/home");
     }
 }

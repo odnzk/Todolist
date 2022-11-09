@@ -1,13 +1,16 @@
 package repository.dao;
 
 
-import exceptions.ConnectingDbException;
-import exceptions.LoadingDbException;
-import model.User;
+import model.Achievement;
 
+import java.util.List;
 import java.util.Optional;
 
-// CRUD
-public interface UserAchievementDao extends GeneralDao<User>{
-   Optional<User> findUserByUsername(String username) throws ConnectingDbException, LoadingDbException;
+
+public interface UserAchievementDao {
+    Optional<List<Achievement>> findAllUserAchievements(long userId);
+
+    Optional<List<Achievement>> findAllAchievements();
+
+    boolean isAchievementUnlocked(Long achivId);
 }

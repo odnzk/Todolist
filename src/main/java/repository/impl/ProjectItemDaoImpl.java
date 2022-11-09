@@ -15,7 +15,6 @@ public class ProjectItemDaoImpl implements ProjectItemDao {
     private static final String SQL_SELECT_BY_ID = "select * from project_items where id = ? limit 1";
     private static final String SQL_SELECT_BY_PROJECT_ID = "select * from project_items where projectId = ?";
 
-    private static final String SQL_UPDATE_PROJECT_ITEM_TITLE = "update project_items set title = ? where id=?;";
     private static final String SQL_UPDATE_PROJECT_ITEM_IS_COMPLETED = "update project_items set is_completed = ? where id=?;";
 
 
@@ -34,23 +33,18 @@ public class ProjectItemDaoImpl implements ProjectItemDao {
     }
 
     @Override
-    public void delete(ProjectItem item) {
-        jdbcTemplate.update(SQL_DELETE_PROJECT_ITEM, item.getId());
+    public void delete(Long itemId) {
+        jdbcTemplate.update(SQL_DELETE_PROJECT_ITEM, itemId);
+    }
+
+
+    public void update(Long itemId) {
+        ProjectItem notUpdated = findProjectItem(itemId).get();
+        jdbcTemplate.update(SQL_UPDATE_PROJECT_ITEM_IS_COMPLETED, !notUpdated.isDone(), itemId);
     }
 
     @Override
-    public void update(ProjectItem item) {
-        ProjectItem notUpdated = findProjectItem(item.getId()).get();
-        if (item.isDone() != notUpdated.isDone()) {
-            jdbcTemplate.update(SQL_UPDATE_PROJECT_ITEM_IS_COMPLETED, item.isDone(), item.getId());
-        }
-        if (!item.getTitle().equals(notUpdated.getTitle())) {
-            jdbcTemplate.update(SQL_UPDATE_PROJECT_ITEM_TITLE, item.getTitle(), item.getId());
-        }
-    }
-
-    @Override
-    public Optional<List<ProjectItem>> findProjectsLinkedToProject(long projectId) {
+    public Optional<List<ProjectItem>> findProjectsLinkedToProject(Long projectId) {
         try {
             return Optional.ofNullable(jdbcTemplate.query(SQL_SELECT_BY_PROJECT_ID, projectItemMapper, projectId));
         } catch (EmptyResultDataAccessException e) {
@@ -61,7 +55,7 @@ public class ProjectItemDaoImpl implements ProjectItemDao {
     }
 
     @Override
-    public Optional<ProjectItem> findProjectItem(long projectItemId) {
+    public Optional<ProjectItem> findProjectItem(Long projectItemId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, projectItemMapper, projectItemId));
         } catch (EmptyResultDataAccessException e) {

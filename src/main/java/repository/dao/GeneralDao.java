@@ -1,13 +1,5 @@
 package repository.dao;
 
-import exceptions.LoadingDbException;
-
-public interface GeneralDao<T> {
-    void insert(T item);
-    void delete(T item);
-    void update(T item);
-}
-
 // USER_DAO find user by email when user is logging in ( email : String ): Optional<User>
 // USER_DAO insert <- registration
 // USER_DAO update <- update project's list, +/ username

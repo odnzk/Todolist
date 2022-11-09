@@ -3,6 +3,7 @@ package repository.impl;
 import model.Achievement;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import repository.dao.UserAchievementDao;
 import util.jdbc.mapper.AchievementsMapper;
 
 import java.util.List;
@@ -11,10 +12,10 @@ import java.util.Optional;
 // insert userId, achievements id
 // find all achievements by userId
 // todo move to interface
-public class UserAchievementsDaoImpl {
+public class UserAchievementsDaoImpl implements UserAchievementDao {
     private static final String SQL_CREATE_USER_ACHIEVEMENT = "insert into _user_achievements(userId, achievement_id) values (?, ?)";
     private static final String SQL_SELECT_ALL = "select * from achievements";
-    private static final String SQL_SELECT_BY_ACHIV_ID = "select * from _user_achievements where achievement_id = ?";
+    private static final String SQL_SELECT_BY_ACHIV_ID = "select userid from _user_achievements where achievement_id = ? LIMIT 1";
     private static final String SQL_SELECT_ALL_USER_ACHIEVEMENTS = "select *\n" +
             "from (select userId, achievements.achievement_id, achievements.title, achievements.category\n" +
             "      from _user_achievements\n" +
@@ -56,6 +57,11 @@ public class UserAchievementsDaoImpl {
     }
 
     public boolean isAchievementUnlocked(Long achivId){
-        return jdbcTemplate.queryForObject(SQL_SELECT_BY_ACHIV_ID, Integer.class) != null;
+        try{
+           jdbcTemplate.queryForObject(SQL_SELECT_BY_ACHIV_ID, Integer.class, achivId);
+           return true;
+        }catch (EmptyResultDataAccessException e){
+            return false;
+        }
     }
 }
