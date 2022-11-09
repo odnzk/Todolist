@@ -10,10 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import listener.InitListener;
 import model.User;
-import org.springframework.jdbc.core.JdbcTemplate;
-import repository.impl.UserDaoImpl;
 import services.AuthService;
-import services.UserAchievementService;
 import validators.UserValidator;
 
 import java.io.IOException;

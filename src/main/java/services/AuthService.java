@@ -9,7 +9,6 @@ import repository.impl.UserDaoImpl;
 import util.PasswordEncoder;
 
 import java.util.Optional;
-// todo
 
 public class AuthService {
     public final static String USER_ATTRIBUTE = "user";
@@ -26,7 +25,7 @@ public class AuthService {
         return userDao.findUserByUsername(username);
     }
 
-    public boolean isAuth(HttpServletRequest req, HttpServletResponse res) {
+    public boolean isAuth(HttpServletRequest req) {
         return req.getSession().getAttribute(USER_ATTRIBUTE) != null;
     }
 
@@ -47,7 +46,6 @@ public class AuthService {
     public boolean login(String username, String password) throws ConnectingDbException, LoadingDbException {
         User user = userDao.findUserByUsername(username).get();
         return user.getPassword().equals(password);
-//        return user.getPassword().equals(passwordEncoder.encode(password));
     }
 
 }

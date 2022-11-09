@@ -3,10 +3,5 @@ package repository.dao;
 
 import model.Achievement;
 
-public interface AchievementDao {
-    void insert(Achievement item);
-
-    void delete(Long itemId);
-
-    void update(Achievement item);
+public interface AchievementDao extends CrudDao<Achievement> {
 }

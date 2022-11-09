@@ -18,6 +18,6 @@ public class ProjectMapper implements RowMapper<Project> {
         Boolean isCompleted = resultSet.getBoolean("is_completed");
         Date startDate = resultSet.getDate("start_date");
         Date finishDate = resultSet.getDate("finish_date");
-        return new Project(id, userid, title,isCompleted, startDate, finishDate);
+        return new Project(id, userid, title, isCompleted, startDate, finishDate);
     }
 }

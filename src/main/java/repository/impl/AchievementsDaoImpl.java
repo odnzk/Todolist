@@ -1,15 +1,18 @@
 package repository.impl;
 
 import model.Achievement;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import repository.dao.AchievementDao;
 import util.jdbc.mapper.AchievementsMapper;
 
+import java.util.Optional;
+
 public class AchievementsDaoImpl implements AchievementDao {
     private static final String SQL_CREATE_ACHIEVEMENT = "insert into achievements(title, category) values (?, ?)";
-    private static final String SQL_DELETE_ACHIEVEMENT = "delete from achievements where achievementId = ?";
-    private static final String SQL_SELECT_BY_ID = "select * from achievements where achievementId = ? limit 1";
-    private static final String SQL_UPDATE_TITLE = "update achievements set title = ? where achievementId=?";
+    private static final String SQL_DELETE_ACHIEVEMENT = "delete from achievements where achievement_id = ?";
+    private static final String SQL_SELECT_BY_ID = "select * from achievements where achievement_id = ? limit 1";
+    private static final String SQL_UPDATE_TITLE = "update achievements set title = ? where achievement_id=?";
 
     private final AchievementsMapper achievementsMapper;
     private final JdbcTemplate jdbcTemplate;
@@ -34,15 +37,15 @@ public class AchievementsDaoImpl implements AchievementDao {
         jdbcTemplate.update(SQL_UPDATE_TITLE, item.getTitle(), item.getId());
     }
 
-    // todo move to interface
-//    public Optional<Achievement> select(long achievementId) {
-//        try {
-//            return Optional.ofNullable(jdbcTemplate.queryForObject(
-//                    SQL_SELECT_BY_ID,
-//                    achievementsMapper,
-//                    achievementId));
-//        } catch (EmptyResultDataAccessException e) {
-//            return Optional.empty();
-//        }
-//    }
+    @Override
+    public Optional<Achievement> findItem(Long itemId) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
+                    SQL_SELECT_BY_ID,
+                    achievementsMapper,
+                    itemId));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
 }

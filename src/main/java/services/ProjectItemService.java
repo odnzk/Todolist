@@ -26,7 +26,7 @@ public class ProjectItemService {
     }
 
     public Optional<List<ProjectItem>> findProjectLinkedToProject(Long projectItemId) {
-        Optional<ProjectItem> projectItem = projectItemDao.findProjectItem(projectItemId);
+        Optional<ProjectItem> projectItem = projectItemDao.findItem(projectItemId);
         if(projectItem.isPresent()){
             Long projectId = projectItem.get().getProjectId();
             return projectItemDao.findProjectItemsLinkedToProject(projectId);

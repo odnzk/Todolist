@@ -9,9 +9,6 @@ import util.jdbc.mapper.AchievementsMapper;
 import java.util.List;
 import java.util.Optional;
 
-// insert userId, achievements id
-// find all achievements by userId
-// todo move to interface
 public class UserAchievementsDaoImpl implements UserAchievementDao {
     private static final String SQL_CREATE_USER_ACHIEVEMENT = "insert into _user_achievements(userId, achievement_id) values (?, ?)";
     private static final String SQL_SELECT_ALL = "select * from achievements";

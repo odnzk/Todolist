@@ -11,7 +11,6 @@ import model.Achievement;
 import model.User;
 import model.ui.UiUserAchievement;
 import services.AuthService;
-import services.ProjectItemService;
 import services.UserAchievementService;
 import services.UserAchievementServiceHelper;
 

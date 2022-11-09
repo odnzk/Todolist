@@ -7,16 +7,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import listener.InitListener;
-import model.ProjectItem;
 import model.User;
 import services.AuthService;
 import services.ProjectItemService;
-import services.UserAchievementService;
 import services.UserAchievementServiceHelper;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 
 @WebServlet("/updateProjectItem/*")
 public class UpdateProjectItemServlet extends HttpServlet {

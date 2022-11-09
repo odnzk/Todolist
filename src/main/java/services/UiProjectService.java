@@ -43,22 +43,4 @@ public class UiProjectService {
 
         return uiProjects;
     }
-
-//    // details fragment
-//    public UiProjectWithItems getUiProject(long projectId) {
-//        UiProjectWithItems uiProject = new UiProjectWithItems();
-//        Project project = projectDao.findProject(projectId).orElseThrow();
-//        List<ProjectItem> items = projectItemDao.findProjectsLinkedToProject(project.getId()).orElse(List.of());
-//        // sort completed first
-//        items.sort(new Comparator<ProjectItem>() {
-//            @Override
-//            public int compare(ProjectItem o1, ProjectItem o2) {
-//                return Boolean.compare(o1.isCompleted(), o2.isCompleted());
-//            }
-//        });
-//        uiProject.setProject(project);
-//        uiProject.setListProjectItem(items);
-//
-//        return uiProject;
-//    }
 }

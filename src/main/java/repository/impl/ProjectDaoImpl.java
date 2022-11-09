@@ -41,7 +41,7 @@ public class ProjectDaoImpl implements ProjectDao {
 
     @Override
     public void update(Project item) {
-        Project notUpdated = findProject(item.getId()).get();
+        Project notUpdated = findItem(item.getId()).get();
         if (item.isCompleted() != notUpdated.isCompleted()) {
             jdbcTemplate.update(SQL_UPDATE_PROJECT_IS_COMPLETED, item.isCompleted(), item.getId());
         }
@@ -51,26 +51,23 @@ public class ProjectDaoImpl implements ProjectDao {
     }
 
     @Override
-    public Optional<List<Project>> findProjectsLinkedToUser(Long userId) {
+    public Optional<Project> findItem(Long itemId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.query(SQL_SELECT_BY_USER_ID, projectMapper, userId));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, projectMapper, itemId));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
-//        List<Project> res = jdbcTemplate.query(SQL_SELECT_BY_USER_ID, projectMapper, userId);
-//        return Optional.of(res);
     }
 
     @Override
-    public Optional<Project> findProject(Long projectId) {
+    public Optional<List<Project>> findProjectsLinkedToUser(Long userId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, projectMapper, projectId));
+            return Optional.of(jdbcTemplate.query(SQL_SELECT_BY_USER_ID, projectMapper, userId));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
-//        Project res = jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, projectMapper, projectId);
-//        return Optional.ofNullable(res);
     }
+
 
     @Override
     public void deleteAll(Long userId) {

@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import listener.InitListener;
 import model.User;
 import services.AuthService;
-import services.UserAchievementService;
 import services.UserAchievementServiceHelper;
 
 import java.io.IOException;

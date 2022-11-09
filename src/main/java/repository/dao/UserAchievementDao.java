@@ -9,8 +9,6 @@ import java.util.Optional;
 
 public interface UserAchievementDao {
     Optional<List<Achievement>> findAllUserAchievements(long userId);
-
     Optional<List<Achievement>> findAllAchievements();
-
     boolean isAchievementUnlocked(Long achivId);
 }

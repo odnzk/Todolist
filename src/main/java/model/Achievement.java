@@ -19,11 +19,6 @@ public class Achievement {
         this.category = category;
     }
 
-    public Achievement(String title, String category) {
-        this.title = title;
-        this.category = category;
-    }
-
     public Long getId() {
         return id;
     }

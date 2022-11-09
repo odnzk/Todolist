@@ -41,15 +41,9 @@ public class InitListener implements ServletContextListener {
         AchievementsDaoImpl achievementsDao = new AchievementsDaoImpl(new AchievementsMapper(), jdbcTemplate);
         UserAchievementsDaoImpl userAchievementsDao = new UserAchievementsDaoImpl(new AchievementsMapper(), jdbcTemplate);
 
-//        sce.getServletContext().setAttribute(KEY_USER_DAO, userDao);
-//        sce.getServletContext().setAttribute(KEY_PROJECT_DAO, projectDao);
-//        sce.getServletContext().setAttribute(KEY_PROJECT_ITEM_DAO, projectItemDao);
-//        sce.getServletContext().setAttribute(KEY_ACHIEVEMENT_DAO, achievementsDao);
-//        sce.getServletContext().setAttribute(KEY_USER_ACHIEVEMENT_DAO, userAchievementsDao);
 
         sce.getServletContext().setAttribute(KEY_AUTH_SERVICE, new AuthService(userDao, passwordEncoder));
         sce.getServletContext().setAttribute(KEY_UI_PROJECT_SERVICE, new UiProjectService(projectDao, projectItemDao));
-//        sce.getServletContext().setAttribute(KEY_ACHIEVEMENT_SERVICE, new AchievementService(achievementsDao));
         ProjectItemService projectItemService = new ProjectItemService(projectItemDao);
         UserAchievementService userAchievementService = new UserAchievementService(userAchievementsDao);
         sce.getServletContext().setAttribute(KEY_USER_ACHIEVEMENT_SERVICE, userAchievementService);

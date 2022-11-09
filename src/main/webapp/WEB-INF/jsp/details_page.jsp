@@ -8,7 +8,6 @@
         <jsp:include page="../parts/nav_menu.jsp"/>
     </div>
 
-    <%--<div class="p-3">cwjoeij</div>--%>
     <!--HEADER-->
     <div class="d-container-fluid p-3 mt-2">
         <h3><b>WeatherApp</b></h3>
@@ -24,7 +23,7 @@
             <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 75%" aria-valuenow="50"
                  aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        </br>
+        <br>
         <ul class="list-group">
             <li class="list-group-item">
                 <div class="form-check">
