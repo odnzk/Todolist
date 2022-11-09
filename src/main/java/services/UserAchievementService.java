@@ -24,10 +24,6 @@ public class UserAchievementService {
         return userAchievementsDao.findAllUserAchievements(user.getId());
     }
 
-//    private boolean isAchievementUnlocked(Long achivId){
-//        return userAchievementsDao.checkAchievement(achivId);
-//    }
-
     public Optional<List<Achievement>> findAllAchievements() {
         return userAchievementsDao.findAllAchievements();
     }

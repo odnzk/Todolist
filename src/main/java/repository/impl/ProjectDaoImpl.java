@@ -19,7 +19,6 @@ public class ProjectDaoImpl implements ProjectDao {
     private static final String SQL_UPDATE_PROJECT_TITLE = "update projects set title = ? where id=?;";
     private static final String SQL_UPDATE_PROJECT_IS_COMPLETED = "update projects set is_completed = ? where id=?;";
 
-
     private final ProjectMapper projectMapper;
     private final JdbcTemplate jdbcTemplate;
 
@@ -75,6 +74,6 @@ public class ProjectDaoImpl implements ProjectDao {
 
     @Override
     public void deleteAll(Long userId) {
-        jdbcTemplate.update(SQL_DELETE_PROJECT, userId);
+        jdbcTemplate.update(SQL_DELETE_ALL, userId);
     }
 }

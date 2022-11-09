@@ -14,6 +14,7 @@ public class ProjectItemDaoImpl implements ProjectItemDao {
     private static final String SQL_DELETE_PROJECT_ITEM = "delete from project_items where id = ?";
     private static final String SQL_SELECT_BY_ID = "select * from project_items where id = ? limit 1";
     private static final String SQL_SELECT_BY_PROJECT_ID = "select * from project_items where projectId = ?";
+    private static final String SQL_COUNT_ALL = "select count(*) from project_items";
 
     private static final String SQL_UPDATE_PROJECT_ITEM_IS_COMPLETED = "update project_items set is_completed = ? where id=?;";
 
@@ -44,7 +45,16 @@ public class ProjectItemDaoImpl implements ProjectItemDao {
     }
 
     @Override
-    public Optional<List<ProjectItem>> findProjectsLinkedToProject(Long projectId) {
+    public Optional<Long> count() {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SQL_COUNT_ALL, Long.class));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<List<ProjectItem>> findProjectItemsLinkedToProject(Long projectId) {
         try {
             return Optional.ofNullable(jdbcTemplate.query(SQL_SELECT_BY_PROJECT_ID, projectItemMapper, projectId));
         } catch (EmptyResultDataAccessException e) {
@@ -64,4 +74,6 @@ public class ProjectItemDaoImpl implements ProjectItemDao {
 //        ProjectItem res = jdbcTemplate.queryForObject(SQL_SELECT_BY_ID, projectItemMapper, projectItemId);
 //        return Optional.ofNullable(res);
     }
+
+
 }

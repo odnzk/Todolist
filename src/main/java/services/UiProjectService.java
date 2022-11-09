@@ -25,7 +25,7 @@ public class UiProjectService {
 
         List<Project> projectList = projectDao.findProjectsLinkedToUser(user.getId()).orElse(List.of());
         for (Project project : projectList) {
-            List<ProjectItem> items = projectItemDao.findProjectsLinkedToProject(project.getId()).orElse(List.of());
+            List<ProjectItem> items = projectItemDao.findProjectItemsLinkedToProject(project.getId()).orElse(List.of());
             long countItems = items.size();
             items.sort(new Comparator<ProjectItem>() {
                 @Override

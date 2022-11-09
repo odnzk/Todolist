@@ -9,6 +9,7 @@ public interface ProjectItemDao {
     void insert(ProjectItem item);
     void delete(Long itemId);
     void update(Long itemId);
-    Optional<List<ProjectItem>> findProjectsLinkedToProject(Long projectId);
+    Optional<Long> count();
+    Optional<List<ProjectItem>> findProjectItemsLinkedToProject(Long projectId);
     Optional<ProjectItem> findProjectItem(Long projectItemId);
 }

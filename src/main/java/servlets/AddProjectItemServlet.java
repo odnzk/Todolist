@@ -11,20 +11,20 @@ import model.ProjectItem;
 import model.User;
 import services.AuthService;
 import services.ProjectItemService;
-import services.UserAchievementService;
+import services.UserAchievementServiceHelper;
 
 import java.io.IOException;
 
 @WebServlet("/addItem")
 public class AddProjectItemServlet extends HttpServlet {
     private ProjectItemService projectItemService;
-    private UserAchievementService userAchievementService;
+    private UserAchievementServiceHelper userAchievementServiceHelper;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         projectItemService = (ProjectItemService) getServletContext().getAttribute(InitListener.KEY_PROJECT_ITEM_SERVICE);
-        userAchievementService = (UserAchievementService) getServletContext().getAttribute(InitListener.KEY_USER_ACHIEVEMENT_SERVICE);
+        userAchievementServiceHelper = (UserAchievementServiceHelper) getServletContext().getAttribute(InitListener.KEY_USER_ACHIEVEMENT_SERVICE_HELPER);
     }
 
     @Override
@@ -34,7 +34,8 @@ public class AddProjectItemServlet extends HttpServlet {
             String title = req.getParameter("projectItemTitle");
             Long projectId = Long.parseLong(req.getParameter("projectId"));
             projectItemService.add(new ProjectItem(projectId, title));
-            userAchievementService.unlockAchievement(user.getId(), 8L);
+
+            userAchievementServiceHelper.unlockFirstProjectItemCreated(user);
         } catch (NumberFormatException e) {
             req.setAttribute("message", "Invalid project id");
         }

@@ -8,7 +8,10 @@ import repository.impl.*;
 import services.*;
 import util.PasswordEncoder;
 import util.jdbc.AppDataSource;
-import util.jdbc.mapper.*;
+import util.jdbc.mapper.AchievementsMapper;
+import util.jdbc.mapper.ProjectItemMapper;
+import util.jdbc.mapper.ProjectMapper;
+import util.jdbc.mapper.UserMapper;
 
 
 @WebListener
@@ -24,6 +27,7 @@ public class InitListener implements ServletContextListener {
     public static final String KEY_PROJECT_ITEM_SERVICE = "projectItemService";
     public static final String KEY_ACHIEVEMENT_SERVICE = "achievementService";
     public static final String KEY_USER_ACHIEVEMENT_SERVICE = "userAchievementService";
+    public static final String KEY_USER_ACHIEVEMENT_SERVICE_HELPER = "userAchievementServiceHelper";
 
 
     @Override
@@ -46,9 +50,15 @@ public class InitListener implements ServletContextListener {
         sce.getServletContext().setAttribute(KEY_AUTH_SERVICE, new AuthService(userDao, passwordEncoder));
         sce.getServletContext().setAttribute(KEY_UI_PROJECT_SERVICE, new UiProjectService(projectDao, projectItemDao));
 //        sce.getServletContext().setAttribute(KEY_ACHIEVEMENT_SERVICE, new AchievementService(achievementsDao));
-        sce.getServletContext().setAttribute(KEY_USER_ACHIEVEMENT_SERVICE, new UserAchievementService(userAchievementsDao));
+        ProjectItemService projectItemService = new ProjectItemService(projectItemDao);
+        UserAchievementService userAchievementService = new UserAchievementService(userAchievementsDao);
+        sce.getServletContext().setAttribute(KEY_USER_ACHIEVEMENT_SERVICE, userAchievementService);
         sce.getServletContext().setAttribute(KEY_PROJECT_SERVICE, new ProjectService(projectDao));
-        sce.getServletContext().setAttribute(KEY_PROJECT_ITEM_SERVICE, new ProjectItemService(projectItemDao));
+        sce.getServletContext().setAttribute(KEY_PROJECT_ITEM_SERVICE, projectItemService);
+        sce.getServletContext()
+                .setAttribute(KEY_USER_ACHIEVEMENT_SERVICE_HELPER,
+                        new UserAchievementServiceHelper(projectItemService,
+                                userAchievementService));
 
     }
 }

@@ -11,7 +11,7 @@ import model.Project;
 import model.User;
 import services.AuthService;
 import services.ProjectService;
-import services.UserAchievementService;
+import services.UserAchievementServiceHelper;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -24,13 +24,13 @@ import java.util.Locale;
 public class AddProjectServlet extends HttpServlet {
     private static final String DATE_PATTERN = "yyyy-MM-dd";
     private ProjectService projectService;
-    private UserAchievementService userAchievementService;
+    private UserAchievementServiceHelper userAchievementServiceHelper;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         projectService = (ProjectService) getServletContext().getAttribute(InitListener.KEY_PROJECT_SERVICE);
-        userAchievementService = (UserAchievementService) getServletContext().getAttribute(InitListener.KEY_USER_ACHIEVEMENT_SERVICE);
+        userAchievementServiceHelper = (UserAchievementServiceHelper) getServletContext().getAttribute(InitListener.KEY_USER_ACHIEVEMENT_SERVICE_HELPER);
     }
 
     @Override
@@ -43,7 +43,8 @@ public class AddProjectServlet extends HttpServlet {
         try {
             Project project = new Project(user.getId(), title, convertToDate(startDate), convertToDate(finishDate));
             projectService.create(project);
-            userAchievementService.unlockAchievement(user.getId(), 2L);
+
+            userAchievementServiceHelper.unlockFirstProject(user);
         } catch (ParseException e) {
             req.setAttribute("message", "Invalid date");
         }
