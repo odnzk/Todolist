@@ -1,7 +1,7 @@
 package services;
 
 import model.Project;
-import repository.ProjectDao;
+import repository.dao.ProjectDao;
 
 import java.util.List;
 import java.util.Optional;

@@ -4,7 +4,7 @@ import util.jdbc.mapper.ProjectMapper;
 import model.Project;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import repository.ProjectDao;
+import repository.dao.ProjectDao;
 
 import java.util.List;
 import java.util.Optional;

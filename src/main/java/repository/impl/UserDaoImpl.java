@@ -1,15 +1,19 @@
 package repository.impl;
 
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import util.jdbc.mapper.UserMapper;
 import model.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import repository.UserDao;
+import repository.dao.UserDao;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
-    private static final String SQL_CREATE_USER = "insert into users(username, email, password) values (?, ?, ?)";
+    private static final String SQL_CREATE_USER = "insert into users(username, email, password) values (?, ?, ?) returning id";
     private static final String SQL_DELETE_USER = "delete from users where username = ?";
     private static final String SQL_SELECT_BY_USERNAME = "select * from users where username = ? limit 1";
 
@@ -64,11 +68,6 @@ public class UserDaoImpl implements UserDao {
         }catch (EmptyResultDataAccessException e){
             return Optional.empty();
         }
-//        User res = jdbcTemplate.queryForObject(
-//                SQL_SELECT_BY_USERNAME,
-//                userMapper,
-//                username);
-//        return Optional.ofNullable(res);
     }
 
 }

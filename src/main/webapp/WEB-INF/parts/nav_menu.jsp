@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <nav class="navbar navbar-expand-lg navbar-light  bg-primary">
 
-    <a class="navbar-brand" href="#"><b>SemesterProject</b></a>
+    <a class="navbar-brand ps-2" href="#"><b>SemesterProject</b></a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

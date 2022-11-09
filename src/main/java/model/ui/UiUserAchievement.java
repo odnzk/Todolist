@@ -1,37 +1,29 @@
 package model.ui;
 
+import model.Achievement;
+
 public class UiUserAchievement {
-    private Long id;
-    private String title;
-    private Boolean isUnlocked;
+    private Achievement achievement;
+    private Boolean unlocked;
 
-    public UiUserAchievement(Long id, String title, Boolean isUnlocked) {
-        this.id = id;
-        this.title = title;
-        this.isUnlocked = isUnlocked;
+    public UiUserAchievement(Achievement achievement, Boolean isUnlocked) {
+        this.achievement = achievement;
+        this.unlocked = isUnlocked;
     }
 
-    public Long getId() {
-        return id;
+    public Achievement getAchievement() {
+        return achievement;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setAchievement(Achievement achievement) {
+        this.achievement = achievement;
     }
 
     public Boolean getUnlocked() {
-        return isUnlocked;
+        return unlocked;
     }
 
     public void setUnlocked(Boolean unlocked) {
-        isUnlocked = unlocked;
+        this.unlocked = unlocked;
     }
 }

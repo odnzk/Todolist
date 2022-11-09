@@ -4,13 +4,19 @@ public class ProjectItem {
     private Long id;
     private Long projectId;
     private String title;
-    private boolean isCompleted;
+    private boolean done;
 
-    public ProjectItem(Long id, Long projectId, String title, boolean isCompleted) {
+    public ProjectItem(Long id, Long projectId, String title, boolean isDone) {
         this.id = id;
         this.projectId = projectId;
         this.title = title;
-        this.isCompleted = isCompleted;
+        this.done = isDone;
+    }
+
+    public ProjectItem(Long projectId, String title) {
+        this.done = false;
+        this.projectId = projectId;
+        this.title = title;
     }
 
     public Long getId() {
@@ -21,8 +27,12 @@ public class ProjectItem {
         return title;
     }
 
-    public boolean isCompleted() {
-        return isCompleted;
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
     }
 
     public void setId(Long id) {
@@ -41,7 +51,4 @@ public class ProjectItem {
         this.projectId = projectId;
     }
 
-    public void setCompleted(boolean completed) {
-        isCompleted = completed;
-    }
 }

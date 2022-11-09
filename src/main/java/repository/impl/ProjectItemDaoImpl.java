@@ -4,7 +4,7 @@ import util.jdbc.mapper.ProjectItemMapper;
 import model.ProjectItem;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import repository.ProjectItemDao;
+import repository.dao.ProjectItemDao;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +30,7 @@ public class ProjectItemDaoImpl implements ProjectItemDao {
     @Override
     public void insert(ProjectItem item) {
         // projectId, title, is_completed
-        jdbcTemplate.update(SQL_CREATE_PROJECT_ITEM, item.getProjectId(), item.getTitle(), item.isCompleted());
+        jdbcTemplate.update(SQL_CREATE_PROJECT_ITEM, item.getProjectId(), item.getTitle(), item.isDone());
     }
 
     @Override
@@ -41,8 +41,8 @@ public class ProjectItemDaoImpl implements ProjectItemDao {
     @Override
     public void update(ProjectItem item) {
         ProjectItem notUpdated = findProjectItem(item.getId()).get();
-        if (item.isCompleted() != notUpdated.isCompleted()) {
-            jdbcTemplate.update(SQL_UPDATE_PROJECT_ITEM_IS_COMPLETED, item.isCompleted(), item.getId());
+        if (item.isDone() != notUpdated.isDone()) {
+            jdbcTemplate.update(SQL_UPDATE_PROJECT_ITEM_IS_COMPLETED, item.isDone(), item.getId());
         }
         if (!item.getTitle().equals(notUpdated.getTitle())) {
             jdbcTemplate.update(SQL_UPDATE_PROJECT_ITEM_TITLE, item.getTitle(), item.getId());

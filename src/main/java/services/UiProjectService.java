@@ -4,12 +4,11 @@ import model.Project;
 import model.ProjectItem;
 import model.User;
 import model.ui.UiProjectWithItems;
-import repository.ProjectDao;
-import repository.ProjectItemDao;
+import repository.dao.ProjectDao;
+import repository.dao.ProjectItemDao;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class UiProjectService {
@@ -27,12 +26,15 @@ public class UiProjectService {
         List<Project> projectList = projectDao.findProjectsLinkedToUser(user.getId()).orElse(List.of());
         for (Project project : projectList) {
             List<ProjectItem> items = projectItemDao.findProjectsLinkedToProject(project.getId()).orElse(List.of());
-            int countItems = items.size(); // 10
-            items = items
-                    .stream()
-                    .filter(item -> !item.isCompleted())
-                    .collect(Collectors.toList()); //4
-            int progress = (int) ((1 - items.size() / (double )countItems)*100);
+            long countItems = items.size();
+            items.sort(new Comparator<ProjectItem>() {
+                @Override
+                public int compare(ProjectItem o1, ProjectItem o2) {
+                    return -Boolean.compare(o1.isDone(), o2.isDone());
+                }
+            });
+            long countCompleted = items.stream().map(ProjectItem::isDone).filter(it -> it).count();
+            int progress = (int) (countCompleted * 100.0 / countItems);
             uiProjects.add(new UiProjectWithItems(project, items, progress));
         }
 
@@ -42,21 +44,21 @@ public class UiProjectService {
         return uiProjects;
     }
 
-    // details fragment
-    public UiProjectWithItems getUiProject(long projectId) {
-        UiProjectWithItems uiProject = new UiProjectWithItems();
-        Project project = projectDao.findProject(projectId).orElseThrow();
-        List<ProjectItem> items = projectItemDao.findProjectsLinkedToProject(project.getId()).orElse(List.of());
-        // sort completed first
-        items.sort(new Comparator<ProjectItem>() {
-            @Override
-            public int compare(ProjectItem o1, ProjectItem o2) {
-                return Boolean.compare(o1.isCompleted(), o2.isCompleted());
-            }
-        });
-        uiProject.setProject(project);
-        uiProject.setListProjectItem(items);
-
-        return uiProject;
-    }
+//    // details fragment
+//    public UiProjectWithItems getUiProject(long projectId) {
+//        UiProjectWithItems uiProject = new UiProjectWithItems();
+//        Project project = projectDao.findProject(projectId).orElseThrow();
+//        List<ProjectItem> items = projectItemDao.findProjectsLinkedToProject(project.getId()).orElse(List.of());
+//        // sort completed first
+//        items.sort(new Comparator<ProjectItem>() {
+//            @Override
+//            public int compare(ProjectItem o1, ProjectItem o2) {
+//                return Boolean.compare(o1.isCompleted(), o2.isCompleted());
+//            }
+//        });
+//        uiProject.setProject(project);
+//        uiProject.setListProjectItem(items);
+//
+//        return uiProject;
+//    }
 }

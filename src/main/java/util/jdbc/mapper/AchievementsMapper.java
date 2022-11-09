@@ -11,8 +11,9 @@ public class AchievementsMapper implements RowMapper<Achievement> {
 
     @Override
     public Achievement mapRow(ResultSet resultSet, int i) throws SQLException {
-        long id = resultSet.getInt("id");
+        Long id = resultSet.getLong("achievement_id");
         String username = resultSet.getString("title");
-        return new Achievement(id, username);
+        String category = resultSet.getString("category");
+        return new Achievement(id, username, category);
     }
 }

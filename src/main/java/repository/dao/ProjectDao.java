@@ -1,7 +1,6 @@
-package repository;
+package repository.dao;
 
 import model.Project;
-import model.ProjectItem;
 
 import java.util.List;
 import java.util.Optional;

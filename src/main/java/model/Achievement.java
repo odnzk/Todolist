@@ -3,14 +3,25 @@ package model;
 public class Achievement {
     private Long id;
     private String title;
+    private String category;
 
-    public Achievement(Long id, String title) {
-        this.id = id;
-        this.title = title;
+    public String getCategory() {
+        return category;
     }
 
-    public Achievement(String title) {
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Achievement(Long id, String title, String category) {
+        this.id = id;
         this.title = title;
+        this.category = category;
+    }
+
+    public Achievement(String title, String category) {
+        this.title = title;
+        this.category = category;
     }
 
     public Long getId() {

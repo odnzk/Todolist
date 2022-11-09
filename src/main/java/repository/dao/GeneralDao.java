@@ -1,4 +1,4 @@
-package repository;
+package repository.dao;
 
 import exceptions.LoadingDbException;
 

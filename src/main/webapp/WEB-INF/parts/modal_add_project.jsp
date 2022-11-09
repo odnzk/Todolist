@@ -1,4 +1,4 @@
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="addProjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -13,7 +13,7 @@
                                placeholder="Enter title" required>
                     </div>
                     <div>
-                        <label class="form-label" for="startDate"><b>Start date<b></b></label>
+                        <label class="form-label" for="startDate"><b>Start date</b></label>
                         <input class="form-control" placeholder="Enter start date"
                                type="date" name="startDate" id="startDate" required>
                     </div>

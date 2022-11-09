@@ -4,16 +4,15 @@ import util.jdbc.mapper.AchievementsMapper;
 import model.Achievement;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import repository.GeneralDao;
+import repository.dao.GeneralDao;
 
 import java.util.Optional;
 
 public class AchievementsDaoImpl implements GeneralDao<Achievement> {
-    private static final String SQL_CREATE_ACHIEVEMENT = "insert into achievements(title) values (?)";
-    private static final String SQL_DELETE_ACHIEVEMENT = "delete from achievements where id = ?";
-    private static final String SQL_SELECT_BY_ID = "select * from achievements where id = ? limit 1";
-    private static final String SQL_UPDATE_TITLE = "update achievements set title = ? where id=?";
-
+    private static final String SQL_CREATE_ACHIEVEMENT = "insert into achievements(title, category) values (?, ?)";
+    private static final String SQL_DELETE_ACHIEVEMENT = "delete from achievements where achievementId = ?";
+    private static final String SQL_SELECT_BY_ID = "select * from achievements where achievementId = ? limit 1";
+    private static final String SQL_UPDATE_TITLE = "update achievements set title = ? where achievementId=?";
 
     private final AchievementsMapper achievementsMapper;
     private final JdbcTemplate jdbcTemplate;

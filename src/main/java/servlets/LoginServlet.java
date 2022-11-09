@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import listener.InitListener;
 import model.User;
 import services.AuthService;
+import services.UserAchievementService;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -17,11 +18,13 @@ import java.util.Optional;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     private AuthService service;
+    private UserAchievementService userAchievementService;
 
     @Override
     public void init() throws ServletException {
         super.init();
         service = (AuthService) getServletContext().getAttribute(InitListener.KEY_AUTH_SERVICE);
+        userAchievementService = (UserAchievementService) getServletContext().getAttribute(InitListener.KEY_USER_ACHIEVEMENT_SERVICE);
     }
 
     @Override
@@ -42,6 +45,7 @@ public class LoginServlet extends HttpServlet {
             } else {
                 if (service.login(username, password)) {
                     service.auth(user.get(), req);
+                    userAchievementService.unlockAchievement(user.get().getId(), 1L);
                     resp.setContentType("text/html;charset=UTF-8");
                     resp.sendRedirect(req.getContextPath() + "/home");
 //                    req.getRequestDispatcher("/WEB-INF/jsp/main_page.jsp").forward(req, resp);

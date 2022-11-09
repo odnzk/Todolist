@@ -1,4 +1,4 @@
-package repository;
+package repository.dao;
 
 
 import exceptions.ConnectingDbException;
@@ -8,6 +8,6 @@ import model.User;
 import java.util.Optional;
 
 // CRUD
-public interface UserAchievementDao extends GeneralDao<User>{
+public interface UserDao extends GeneralDao<User>{
    Optional<User> findUserByUsername(String username) throws ConnectingDbException, LoadingDbException;
 }
