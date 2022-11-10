@@ -52,39 +52,6 @@ public class UpdateProjectItemServlet extends HttpServlet {
             Long projectItemId = Long.parseLong(strProjectItemId);
             projectItemService.update(projectItemId);
 
-//            Socket s = new Socket(InetAddress.getByName("localhost"), 80);
-//            PrintWriter out = new PrintWriter(s.getOutputStream());
-//            out.println("GET / HTTP:1.1");
-//            out.println("HOST: localhost");
-//            out.println("USER-AGENT: some browser");
-//            out.println();
-//            out.flush();
-//
-//            BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-//            String line = null;
-//            while((line = in.readLine()) != null){
-//                out.println(line);
-//            }
-//            s.close();
-            // http server файовый сервер
-            // написать и куда-то там замаппить
-            // если файлик есть в директории, то отдаем файлик,
-            // если нет, но генерируем страничку с 404 статус
-            // норм сервер не должен отдавать файлы все сайта (с .. аккуратнее)
-            // надо работать с файловой системой и генерировать html
-
-            // 2 из запроса берем get параметра и генерируем файлик с их суммой
-
-            ServerSocket serverSocket = new ServerSocket(8080);
-            Socket s = serverSocket.accept();
-            BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            String line = null;
-            while((line = in.readLine()) != null){
-                System.out.println(line);
-            }
-            PrintWriter out = new PrintWriter(s.getOutputStream());
-            out.println("HTTP 1.1. 200 OK\r\n");
-
 
             // check if project is complete -> unlock achiv else skip
             // update project even if it is not completed

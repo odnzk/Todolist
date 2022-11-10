@@ -14,7 +14,7 @@
                         <c:if test="${uiAchiv.achievement.category.equals(category)}">
                             <li class="list-group-item d-flex <c:if test="${!uiAchiv.unlocked}">disabled</c:if>">
                                 <i class="bi bi-award-fill"></i>
-                                <p>${uiAchiv.achievement.title}</p>
+                                <p class="ms-3">${uiAchiv.achievement.title}</p>
                             </li>
                         </c:if>
                     </c:forEach>

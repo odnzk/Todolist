@@ -5,11 +5,10 @@
 <%! String mes = ""; %>
 
 <t:mainLayout title="Sign up">
+    <div class="d-flex align-items-center">
 
-    <div class="d-flex justify-content-center">
-
-
-        <form method="post" action="signup" class="w-50 p-5">
+    <div class="d-flex w-50">
+        <form method="post" action="signup" class="p-5 w-100">
             <h1>Signup</h1>
             <br>
 
@@ -48,5 +47,10 @@
             <input class="btn btn-primary" type="submit" value="Sign up">
 
         </form>
+    </div>
+
+        <div class="w-50">
+            <img class="w-100" src="<c:url value='/static/pic_signup.jpg'/>">
+        </div>
     </div>
 </t:mainLayout>

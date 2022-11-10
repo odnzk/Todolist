@@ -5,7 +5,7 @@
 <t:mainLayout title="Profile">
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            let btn = document.getElementById('logOut');
+            let btn = document.getElementById('logout');
 
             function logOut() {
                 if (confirm('Are you sure you want to log out?')) {
@@ -51,7 +51,9 @@
                        placeholder="${requestScope.get('password')}" value="${requestScope.get('password')}">
             </div>
 
-            <input class="btn btn-primary" type="submit" value="Change profile data">
+            <input class="btn btn-primary w-100" type="submit" value="Change profile data">
+            <br>
+            <button class="btn btn-primary w-100" id="logout">Logout</button>
         </form>
     </div>
 </t:mainLayout>
