@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 import java.util.Optional;
@@ -65,6 +66,24 @@ public class UpdateProjectItemServlet extends HttpServlet {
 //                out.println(line);
 //            }
 //            s.close();
+            // http server файовый сервер
+            // написать и куда-то там замаппить
+            // если файлик есть в директории, то отдаем файлик,
+            // если нет, но генерируем страничку с 404 статус
+            // норм сервер не должен отдавать файлы все сайта (с .. аккуратнее)
+            // надо работать с файловой системой и генерировать html
+
+            // 2 из запроса берем get параметра и генерируем файлик с их суммой
+
+            ServerSocket serverSocket = new ServerSocket(8080);
+            Socket s = serverSocket.accept();
+            BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            String line = null;
+            while((line = in.readLine()) != null){
+                System.out.println(line);
+            }
+            PrintWriter out = new PrintWriter(s.getOutputStream());
+            out.println("HTTP 1.1. 200 OK\r\n");
 
 
             // check if project is complete -> unlock achiv else skip

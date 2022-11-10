@@ -3,8 +3,9 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:mainLayout title="Login">
+    
+    <img src="/static/pic1.jpeg">
     <div class="d-flex justify-content-center">
-
         <form method="post" action="login" class="w-50 p-5">
             <h1>Login</h1>
             <br>
