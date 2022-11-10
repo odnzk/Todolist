@@ -64,7 +64,7 @@
         <h3 class=""><b>List of projects</b></h3>
         <div class="d-flex justify-content-end">
             <button id="addProject" type="button" class="btn btn-primary pl-24 pr-24  mr-1">Add project</button>
-            <button id="clearAll" type="button" class="btn btn-primary pl-24 pr-24">Clear all</button>
+            <button id="clearAll" type="button" class="btn btn-primary pl-24 pr-24"><i class="bi bi-trash-fill"></i></button>
         </div>
     </div>
 

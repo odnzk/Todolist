@@ -11,7 +11,7 @@ import model.ProjectItem;
 import model.User;
 import services.AuthService;
 import services.ProjectItemService;
-import services.UserAchievementServiceHelper;
+import util.UserAchievementServiceHelper;
 
 import java.io.IOException;
 
@@ -34,6 +34,7 @@ public class AddProjectItemServlet extends HttpServlet {
             String title = req.getParameter("projectItemTitle");
             Long projectId = Long.parseLong(req.getParameter("projectId"));
             projectItemService.add(new ProjectItem(projectId, title));
+
 
             userAchievementServiceHelper.unlockFirstProjectItemCreated(user);
         } catch (NumberFormatException e) {

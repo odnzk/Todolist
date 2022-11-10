@@ -7,7 +7,7 @@
         <h1>Achievements</h1>
 
         <c:forEach var="category" items="${requestScope.get('categories')}">
-            <h3>Category: ${category}</h3>
+            <h4>Category: ${category}</h4>
             <div class="card" style="width: 100%">
                 <ul class="list-group list-group-flush">
                     <c:forEach var="uiAchiv" items="${requestScope.get('uiAchievements')}">

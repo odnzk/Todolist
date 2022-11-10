@@ -5,9 +5,9 @@
         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
         version="5.0">
 
-  <!-- Config here. -->
+  <!-- todo remove welcome ??? -->
   <welcome-file-list>
-    <welcome-file>/WEB-INF/jsp/login.jsp</welcome-file>
+    <welcome-file>/WEB-INF/jsp/start_screen.jsp</welcome-file>
   </welcome-file-list>
 </web-app>
 <!--<!DOCTYPE web-app PUBLIC-->

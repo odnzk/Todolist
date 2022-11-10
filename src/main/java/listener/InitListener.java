@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import repository.impl.*;
 import services.*;
 import util.PasswordEncoder;
+import util.UserAchievementServiceHelper;
 import util.jdbc.AppDataSource;
 import util.jdbc.mapper.AchievementsMapper;
 import util.jdbc.mapper.ProjectItemMapper;
@@ -28,6 +29,7 @@ public class InitListener implements ServletContextListener {
     public static final String KEY_ACHIEVEMENT_SERVICE = "achievementService";
     public static final String KEY_USER_ACHIEVEMENT_SERVICE = "userAchievementService";
     public static final String KEY_USER_ACHIEVEMENT_SERVICE_HELPER = "userAchievementServiceHelper";
+    public static final String KEY_USER_SERVICE = "userService";
 
 
     @Override
@@ -53,6 +55,7 @@ public class InitListener implements ServletContextListener {
                 .setAttribute(KEY_USER_ACHIEVEMENT_SERVICE_HELPER,
                         new UserAchievementServiceHelper(projectItemService,
                                 userAchievementService));
+        sce.getServletContext().setAttribute(KEY_USER_SERVICE, new UserService(userDao));
 
     }
 }

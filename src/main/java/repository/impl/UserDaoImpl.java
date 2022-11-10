@@ -13,8 +13,8 @@ public class UserDaoImpl implements UserDao {
     private static final String SQL_DELETE_USER = "delete from users where id = ?";
     private static final String SQL_SELECT_BY_USERNAME = "select * from users where username = ? limit 1";
 
-    private static final String SQL_UPDATE_USERNAME = "update users set username = ? where id=?;";
-    private static final String SQL_UPDATE_PASSWORD = "update users set password = ? where id=?;";
+    private static final String SQL_UPDATE_USERNAME = "update users set username = ? where id = ?";
+    private static final String SQL_UPDATE_PASSWORD = "update users set password = ? where id = ?";
     private static final String SQL_UPDATE_EMAIL = "update users set email = ? where id=?;";
 
 

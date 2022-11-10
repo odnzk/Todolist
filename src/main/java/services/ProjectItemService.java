@@ -25,7 +25,7 @@ public class ProjectItemService {
         return projectItemDao.count();
     }
 
-    public Optional<List<ProjectItem>> findProjectLinkedToProject(Long projectItemId) {
+    public Optional<List<ProjectItem>> findProjectItemsLinkedToProjectByProjectItem(Long projectItemId) {
         Optional<ProjectItem> projectItem = projectItemDao.findItem(projectItemId);
         if(projectItem.isPresent()){
             Long projectId = projectItem.get().getProjectId();

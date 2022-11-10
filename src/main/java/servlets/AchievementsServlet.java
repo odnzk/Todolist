@@ -12,7 +12,7 @@ import model.User;
 import model.ui.UiUserAchievement;
 import services.AuthService;
 import services.UserAchievementService;
-import services.UserAchievementServiceHelper;
+import util.UserAchievementServiceHelper;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,20 +23,23 @@ import java.util.stream.Collectors;
 @WebServlet("/achievements")
 public class AchievementsServlet extends HttpServlet {
     private UserAchievementService userAchievementService;
+    private AuthService service;
     private UserAchievementServiceHelper userAchievementServiceHelper;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         userAchievementService = (UserAchievementService) getServletContext().getAttribute(InitListener.KEY_USER_ACHIEVEMENT_SERVICE);
+        service = (AuthService) getServletContext().getAttribute(InitListener.KEY_AUTH_SERVICE);
         userAchievementServiceHelper = (UserAchievementServiceHelper) getServletContext().getAttribute(InitListener.KEY_USER_ACHIEVEMENT_SERVICE_HELPER);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = (User) req.getSession().getAttribute(AuthService.USER_ATTRIBUTE);
+        User user = service.getCurrentUser(req);
 
         userAchievementServiceHelper.unlockTenProjectItemCreated(user);
+
         // get all achievements
         // if user have
         Optional<List<Achievement>> userAchiv = userAchievementService.findAllUserAchievements(user);

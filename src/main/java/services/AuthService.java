@@ -1,9 +1,6 @@
 package services;
 
-import exceptions.ConnectingDbException;
-import exceptions.LoadingDbException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import model.User;
 import repository.impl.UserDaoImpl;
 import util.PasswordEncoder;
@@ -21,7 +18,17 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Optional<User> findUser(String username) throws ConnectingDbException, LoadingDbException {
+    // todo check ???
+    public User getCurrentUser(HttpServletRequest req) {
+        if(isAuth(req)){
+            return (User) req.getSession().getAttribute(USER_ATTRIBUTE);
+        }else{
+            return new User("", "", "");
+            // throw smth?
+        }
+    }
+
+    public Optional<User> findUser(String username) {
         return userDao.findUserByUsername(username);
     }
 
@@ -37,13 +44,13 @@ public class AuthService {
         req.getSession().removeAttribute(USER_ATTRIBUTE);
     }
 
-    public void signup(User user) throws LoadingDbException {
+    public void signup(User user) {
         String password = passwordEncoder.encode(user.getPassword());
         user.setPassword(password);
         userDao.insert(user);
     }
 
-    public boolean login(String username, String password) throws ConnectingDbException, LoadingDbException {
+    public boolean login(String username, String password) {
         User user = userDao.findUserByUsername(username).get();
         return user.getPassword().equals(password);
     }

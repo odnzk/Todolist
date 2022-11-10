@@ -3,7 +3,6 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <%! String mes = ""; %>
-<% mes  = (String) session.getAttribute("message");%>
 
 <t:mainLayout title="Sign up">
 
@@ -14,7 +13,7 @@
             <h1>Signup</h1>
             <br>
 
-            <c:if test="${mes != null}"><h2>${mes}</h2></c:if>
+            <c:if test="${requestScope.get('message') != null}"><h2>${requestScope.get('message')}</h2></c:if>
 
             <div>
                 <label for="username" class="form-label">Username</label>

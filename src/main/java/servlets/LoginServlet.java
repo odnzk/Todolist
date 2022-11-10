@@ -1,7 +1,5 @@
 package servlets;
 
-import exceptions.ConnectingDbException;
-import exceptions.LoadingDbException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import listener.InitListener;
 import model.User;
 import services.AuthService;
-import services.UserAchievementServiceHelper;
+import util.UserAchievementServiceHelper;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -38,24 +36,20 @@ public class LoginServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        try {
-            Optional<User> user = service.findUser(username);
-            if (user.isEmpty()) {
-                resp.getWriter().println("There is no user with this username");
+        Optional<User> user = service.findUser(username);
+        if (user.isEmpty()) {
+            resp.getWriter().println("There is no user with this username");
+        } else {
+            if (service.login(username, password)) {
+                service.auth(user.get(), req);
+
+                userAchievementServiceHelper.unlockLogin(user.get());
+
+                resp.setContentType("text/html;charset=UTF-8");
+                resp.sendRedirect(req.getContextPath() + "/home");
             } else {
-                if (service.login(username, password)) {
-                    service.auth(user.get(), req);
-
-                    userAchievementServiceHelper.unlockLogin(user);
-
-                    resp.setContentType("text/html;charset=UTF-8");
-                    resp.sendRedirect(req.getContextPath() + "/home");
-                } else {
-                    resp.getWriter().println("Wrong password");
-                }
+                resp.getWriter().println("Wrong password");
             }
-        } catch (ConnectingDbException | LoadingDbException e) {
-            e.printStackTrace();
         }
     }
 }

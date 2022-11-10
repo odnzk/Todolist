@@ -39,23 +39,16 @@ public class SignUpServlet extends HttpServlet {
         String password = req.getParameter("password");
         User user = new User(username, email, password);
 
-        try {
-            if (service.findUser(user.getUsername()).isPresent()) {
-                resp.getWriter().println("User with this username already exist");
-            }
-        } catch (ConnectingDbException | LoadingDbException e) {
-            e.printStackTrace();
+        if (service.findUser(user.getUsername()).isPresent()) {
+            resp.getWriter().println("User with this username already exist");
         }
         if (new UserValidator().validate(user)) {
-            try {
-                service.auth(user, req);
-                service.signup(user);
+            service.auth(user, req);
+            service.signup(user);
 
-                resp.setContentType("text/html;charset=UTF-8");
-                req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
-            } catch (LoadingDbException e) {
-                e.printStackTrace();
-            }
+            resp.setContentType("text/html;charset=UTF-8");
+            req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
+
         } else {
             resp.getWriter().println("Invalid data");
         }

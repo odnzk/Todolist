@@ -25,6 +25,7 @@ public class ProfileServlet extends HttpServlet {
 
         req.setAttribute("username", user.getUsername());
         req.setAttribute("email", user.getEmail());
+        req.setAttribute("password", user.getPassword());
 
         resp.setContentType("text/html;charset=UTF-8");
         req.getRequestDispatcher("/WEB-INF/jsp/profile.jsp").forward(req, resp);

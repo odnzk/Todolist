@@ -11,7 +11,7 @@ import model.Project;
 import model.User;
 import services.AuthService;
 import services.ProjectService;
-import services.UserAchievementServiceHelper;
+import util.UserAchievementServiceHelper;
 
 import java.io.IOException;
 import java.text.DateFormat;

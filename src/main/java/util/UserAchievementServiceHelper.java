@@ -1,7 +1,9 @@
-package services;
+package util;
 
 import model.ProjectItem;
 import model.User;
+import services.ProjectItemService;
+import services.UserAchievementService;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +13,7 @@ public class UserAchievementServiceHelper {
     private static final long ACH_ID_TEN_PROJECT_ITEMS = 5;
     private static final long ACH_ID_FIRST_PROJECT_ITEM = 8;
     private static final long ACH_ID_FIRST_PROJECT = 2;
+    private static final long ACH_ID_CHANGE_PROFILE = 3;
     private static final long ACH_ID_CLEAR_ALL = 9;
     private static final long ACH_ID_REMOVE_PROJECT = 10;
     private static final long ACH_ID_LOGIN = 1;
@@ -24,14 +27,15 @@ public class UserAchievementServiceHelper {
         this.userAchievementService = userAchievementService;
     }
 
-    public void unlockProjectFinished(User user, Long projectItemId) {
+    public void unlockProjectFinished(User user) {
+        userAchievementService.unlockAchievement(user.getId(), ACH_ID_PROJECT_FINISHED);
         // if all linked projectItem if completed -> update project
-        Optional<List<ProjectItem>> list = projectItemService.findProjectLinkedToProject(projectItemId);
-        if (list.isPresent()) {
-            if (list.get().stream().allMatch(ProjectItem::isDone)) {
-                userAchievementService.unlockAchievement(user.getId(), ACH_ID_PROJECT_FINISHED);
-            }
-        }
+//        Optional<List<ProjectItem>> list = projectItemService.findProjectItemsLinkedToProject(projectItemId);
+//        if (list.isPresent()) {
+//            if (list.get().stream().allMatch(ProjectItem::isDone)) {
+//                userAchievementService.unlockAchievement(user.getId(), ACH_ID_PROJECT_FINISHED);
+//            }
+//        }
     }
 
     public void unlockTenProjectItemCreated(User user) {
@@ -56,7 +60,11 @@ public class UserAchievementServiceHelper {
         userAchievementService.unlockAchievement(user.getId(), ACH_ID_REMOVE_PROJECT);
     }
 
-    public void unlockLogin(Optional<User> user) {
-        userAchievementService.unlockAchievement(user.get().getId(), ACH_ID_LOGIN);
+    public void unlockLogin(User user) {
+        // throw new NoSuchElementException("No value present");
+        userAchievementService.unlockAchievement(user.getId(), ACH_ID_LOGIN);
+    }
+    public void unlockChangeProfile(User user) {
+        userAchievementService.unlockAchievement(user.getId(), ACH_ID_CHANGE_PROFILE);
     }
 }

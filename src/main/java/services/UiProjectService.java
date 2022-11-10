@@ -27,12 +27,7 @@ public class UiProjectService {
         for (Project project : projectList) {
             List<ProjectItem> items = projectItemDao.findProjectItemsLinkedToProject(project.getId()).orElse(List.of());
             long countItems = items.size();
-            items.sort(new Comparator<ProjectItem>() {
-                @Override
-                public int compare(ProjectItem o1, ProjectItem o2) {
-                    return -Boolean.compare(o1.isDone(), o2.isDone());
-                }
-            });
+            items.sort((o1, o2) -> -Boolean.compare(o1.isDone(), o2.isDone()));
             long countCompleted = items.stream().map(ProjectItem::isDone).filter(it -> it).count();
             int progress = (int) (countCompleted * 100.0 / countItems);
             uiProjects.add(new UiProjectWithItems(project, items, progress));
