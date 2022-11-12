@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 public class UserValidator implements Validator<User> {
     private static final int MAX_LENGTH_USERNAME = 25;
     private static final int MAX_LENGTH_EMAIL = 30;
-    private static final String USERNAME_REGEX = "^[A-Za-z]\\w{5, 29}$";
     private static final String EMAIL_REGEX = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
     private static final int MIN_LENGTH_PASSWORD = 8;
     private static final int MAX_LENGTH_PASSWORD = 30;
@@ -23,7 +22,7 @@ public class UserValidator implements Validator<User> {
     }
 
     private boolean checkUsername(String username) {
-        return username.length() < MAX_LENGTH_USERNAME && matcher(USERNAME_REGEX, username);
+        return username.length() < MAX_LENGTH_USERNAME;
     }
 
     private boolean checkPassword(String password) {
@@ -43,8 +42,7 @@ public class UserValidator implements Validator<User> {
         if (checkIfNull(user.getUsername(), user.getEmail(), user.getPassword())) {
             return false;
         }
-//        return true;
-        return isAnyBlank(user.getPassword(), user.getEmail(), user.getUsername())
+        return !isAnyBlank(user.getPassword(), user.getEmail(), user.getUsername())
                 && checkUsername(user.getUsername())
                 && checkEmail(user.getEmail())
                 && checkPassword(user.getPassword());

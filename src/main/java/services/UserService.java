@@ -2,11 +2,12 @@ package services;
 
 import model.User;
 import repository.dao.UserDao;
+import repository.impl.UserDaoImpl;
 
 public class UserService {
-    private final UserDao userDao;
+    private final UserDaoImpl userDao;
 
-    public UserService(UserDao userDao) {
+    public UserService(UserDaoImpl userDao) {
         this.userDao = userDao;
     }
 

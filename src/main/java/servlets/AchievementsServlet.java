@@ -13,7 +13,7 @@ import model.User;
 import model.ui.UiUserAchievement;
 import services.AuthService;
 import services.UserAchievementService;
-import validators.ErrorHandler;
+import util.ErrorHandler;
 
 import java.io.IOException;
 import java.util.List;

@@ -11,7 +11,6 @@ import model.User;
 import services.AuthService;
 import services.ProjectService;
 import util.UserAchievementServiceHelper;
-import validators.ErrorHandler;
 
 import java.io.IOException;
 

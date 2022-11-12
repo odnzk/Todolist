@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import listener.InitListener;
 import model.User;
 import services.AuthService;
-import validators.ErrorHandler;
+import util.ErrorHandler;
 import validators.UserValidator;
 
 import java.io.IOException;

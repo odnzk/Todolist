@@ -10,7 +10,7 @@ import listener.InitListener;
 import model.User;
 import services.UserService;
 import util.UserAchievementServiceHelper;
-import validators.ErrorHandler;
+import util.ErrorHandler;
 import validators.UserValidator;
 
 import java.io.IOException;

@@ -9,7 +9,7 @@ import listener.InitListener;
 import model.User;
 import services.AuthService;
 import util.UserAchievementServiceHelper;
-import validators.ErrorHandler;
+import util.ErrorHandler;
 
 import java.io.IOException;
 import java.util.Optional;

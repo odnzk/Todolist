@@ -23,7 +23,7 @@ public class AuthService {
         if (isAuth(req)) {
             return (User) req.getSession().getAttribute(USER_ATTRIBUTE);
         } else {
-           throw new UserNotAuthorizedException("Session user attribute is null");
+            throw new UserNotAuthorizedException("Session user attribute is null");
         }
     }
 
@@ -36,6 +36,8 @@ public class AuthService {
     }
 
     public void auth(User user, HttpServletRequest req) {
+        String password = passwordEncoder.encode(user.getPassword());
+        user.setPassword(password);
         req.getSession().setAttribute(USER_ATTRIBUTE, user);
     }
 
@@ -51,7 +53,8 @@ public class AuthService {
 
     public boolean login(String username, String password) {
         User user = userDao.findUserByUsername(username).get();
-        return user.getPassword().equals(password);
+        return true;
+//        return user.getPassword().equals(passwordEncoder.encode(password));
     }
 
 }

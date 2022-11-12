@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import listener.InitListener;
 import services.ProjectItemService;
-import validators.ErrorHandler;
+import util.ErrorHandler;
 
 import java.io.IOException;
 

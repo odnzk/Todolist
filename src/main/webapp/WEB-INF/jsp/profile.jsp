@@ -2,24 +2,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:mainLayout title="Profile">
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            let btn = document.getElementById('logout');
-
-            function logOut() {
-                if (confirm('Are you sure you want to log out?')) {
-                    document.location = '${pageContext.request.contextPath}/logout';
-                }
-            }
-
-            if (btn) {
-                btn.addEventListener('click', logOut);
-            }
-        });</script>
-
-    <div class="d-container-fluid d-flex w-50 p-3">
-
+<t:mainLayout title="Profile" jsFiles="profile.js">
+    <div class="d-container-fluid d-flex w-100 p-3">
         <form method="post" action="updateUser" class="w-50 p-5">
             <h1>Profile</h1>
             <br>
@@ -47,7 +31,7 @@
                 <span class="input-group-text" id="basic-addon3">Password</span>
                 <input type="password" class="form-control"
                        aria-label="Email" aria-describedby="basic-addon3"
-                       name="password" maxlength="30"
+                       name="password" maxlength="30" disabled
                        placeholder="${requestScope.get('password')}" value="${requestScope.get('password')}">
             </div>
 

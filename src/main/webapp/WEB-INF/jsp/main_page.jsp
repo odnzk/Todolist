@@ -8,49 +8,7 @@
 <%@ page import="java.util.List" %>
 
 
-<t:mainLayout title="Home">
-    <script>
-        document.addEventListener('DOMContentLoaded', function (url) {
-
-            const btnAdd = document.getElementById('addProject');
-            const btnClear = document.getElementById('clearAll');
-
-            function addProject() {
-                // $('#addProjectModal').modal('show')
-                // document.getElementById('addProjectModal')
-                let myModal = new bootstrap.Modal(document.getElementById('addProjectModal'), {});
-                document.onreadystatechange = function () {
-                    myModal.show();
-                };
-            }
-
-            function clearAllProjects() {
-                $('#clearAllModal').modal('show');
-            }
-
-            function updateProjectItem(checkbox) {
-                const id = checkbox.classList.item(checkbox.classList.length - 1)
-                document.location = '${pageContext.request.contextPath}/updateProjectItem?id=' + id;
-            }
-
-            if (btnAdd) {
-                btnAdd.addEventListener('click', addProject);
-            }
-            if (btnClear) {
-                btnClear.addEventListener('click', clearAllProjects)
-            }
-
-            Array.prototype
-                .slice
-                .call(document.getElementsByClassName('checkbox-project-item')).forEach(
-                cb => {
-                    cb.addEventListener('click', function () {
-                        updateProjectItem(cb);
-                    })
-                }
-            )
-        });</script>
-
+<t:mainLayout title="Home" jsFiles="main_page.js">
     <!-- MODALS -->
     <jsp:include page="/WEB-INF/parts/modal_add_project.jsp"/>
     <jsp:include page="/WEB-INF/parts/modal_clear_all.jsp"/>
@@ -60,7 +18,8 @@
 
         <h3 class=""><b>List of projects</b></h3>
         <div class="d-flex justify-content-end">
-            <button id="addProject" type="button" class="btn btn-primary pl-24 pr-24  mr-1"><i class="bi bi-plus"></i>
+            <button data-toggle="modal" data-target="#addProjectModal" id="addProject" type="button"
+                    class="btn btn-primary pl-24 pr-24  mr-1"><i class="bi bi-plus"></i>
             </button>
             <button id="clearAll" type="button" class="btn btn-primary pl-24 pr-24"><i class="bi bi-trash-fill"></i>
             </button>
@@ -100,19 +59,7 @@
                         <c:forEach var="uiProjectItem" items="${uiProject.listProjectItem}">
 
                             <t:projectItemLayout uiProjectItem="${uiProjectItem}">
-
                             </t:projectItemLayout>
-                            <%--                            <li class="list-group-item">--%>
-                            <%--                                <div class="form-check">--%>
-                            <%--                                    <input class="form-check-input checkbox-project-item ${uiProjectItem.id}"--%>
-                            <%--                                           type="checkbox" value=""--%>
-                            <%--                                           <c:if test="${uiProjectItem.done}">checked</c:if>>--%>
-                            <%--                                    <label class="form-check-label project-item-label <c:if test="${uiProjectItem.done}">completed-project-item</c:if>">--%>
-                            <%--                                            ${uiProjectItem.title}--%>
-                            <%--                                    </label>--%>
-                            <%--                                </div>--%>
-                            <%--                            </li>--%>
-
                         </c:forEach>
                     </ul>
                     <br>

@@ -3,6 +3,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%@attribute name="title" %>
+<%@attribute name="jsFiles" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,13 +16,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
 
+    <c:forTokens items="${jsFiles}" delims=", " var="file">
+        <script defer src="<c:url value="/js/${file}"/>"></script>
+    </c:forTokens>
 </head>
 <body>
 
 <div class="d-container-inline-fluid">
-    <c:if test="${requestScope.get('message') != null}">
-        ${requestScope.get('message')}
-    </c:if>
     <jsp:include page="/WEB-INF/parts/nav_menu.jsp"/>
 </div>
 

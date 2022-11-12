@@ -16,7 +16,7 @@ import util.jdbc.mapper.AchievementsMapper;
 import util.jdbc.mapper.ProjectItemMapper;
 import util.jdbc.mapper.ProjectMapper;
 import util.jdbc.mapper.UserMapper;
-import validators.ErrorHandler;
+import util.ErrorHandler;
 import validators.UserValidator;
 
 

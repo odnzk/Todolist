@@ -13,7 +13,7 @@
         <ul class="navbar-nav">
             <c:if test="${user != null}">
                 <li class="nav-item active">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/">Home</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/home">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/achievements">Achievements</a>
@@ -34,7 +34,9 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="${pageContext.request.contextPath}/signup">Signup</a></li>
-                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li><a class="dropdown-item" href="${pageContext.request.contextPath}/login">Login</a></li>
                     </ul>
                 </li>

@@ -12,7 +12,7 @@ import model.User;
 import services.AuthService;
 import services.ProjectService;
 import util.UserAchievementServiceHelper;
-import validators.ErrorHandler;
+import util.ErrorHandler;
 
 import java.io.IOException;
 import java.text.DateFormat;
