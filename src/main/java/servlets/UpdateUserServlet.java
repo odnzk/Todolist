@@ -10,6 +10,7 @@ import listener.InitListener;
 import model.User;
 import services.UserService;
 import util.UserAchievementServiceHelper;
+import validators.ErrorHandler;
 import validators.UserValidator;
 
 import java.io.IOException;
@@ -18,12 +19,14 @@ import java.io.IOException;
 public class UpdateUserServlet extends HttpServlet {
     private UserService userService;
     private UserAchievementServiceHelper userAchievementServiceHelper;
+    private ErrorHandler errorHandler;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         userService = (UserService) getServletContext().getAttribute(InitListener.KEY_USER_SERVICE);
         userAchievementServiceHelper = (UserAchievementServiceHelper) getServletContext().getAttribute(InitListener.KEY_USER_ACHIEVEMENT_SERVICE_HELPER);
+        errorHandler = (ErrorHandler) getServletContext().getAttribute(InitListener.KEY_ERROR_HANDLER);
     }
 
     @Override
@@ -41,7 +44,7 @@ public class UpdateUserServlet extends HttpServlet {
             resp.setContentType("text/html;charset=UTF-8");
             resp.sendRedirect(req.getContextPath() + "/home");
         } else {
-            resp.getWriter().println("Invalid data");
+            errorHandler.handle(resp, req, "Invalid data", HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 }

@@ -7,37 +7,29 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import listener.InitListener;
-import model.Project;
 import model.ProjectItem;
 import model.User;
 import services.AuthService;
 import services.ProjectItemService;
-import services.ProjectService;
 import util.UserAchievementServiceHelper;
+import validators.ErrorHandler;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.List;
 import java.util.Optional;
 
-// todo update project
 @WebServlet("/updateProjectItem/*")
 public class UpdateProjectItemServlet extends HttpServlet {
     private ProjectItemService projectItemService;
-    private ProjectService projectService;
     private UserAchievementServiceHelper userAchievementServiceHelper;
+    private ErrorHandler errorHandler;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        projectService = (ProjectService) getServletContext().getAttribute(InitListener.KEY_PROJECT_SERVICE);
         projectItemService = (ProjectItemService) getServletContext().getAttribute(InitListener.KEY_PROJECT_ITEM_SERVICE);
         userAchievementServiceHelper = (UserAchievementServiceHelper) getServletContext().getAttribute(InitListener.KEY_USER_ACHIEVEMENT_SERVICE_HELPER);
+        errorHandler = (ErrorHandler) getServletContext().getAttribute(InitListener.KEY_ERROR_HANDLER);
     }
 
     @Override
@@ -47,7 +39,7 @@ public class UpdateProjectItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute(AuthService.USER_ATTRIBUTE);
-        String strProjectItemId = req.getPathInfo().replace('/', ' ').trim();
+        String strProjectItemId = req.getParameter("id");
         try {
             Long projectItemId = Long.parseLong(strProjectItemId);
             projectItemService.update(projectItemId);
@@ -61,13 +53,10 @@ public class UpdateProjectItemServlet extends HttpServlet {
                 if (allCompleted) {
                     userAchievementServiceHelper.unlockProjectFinished(user);
                 }
-//                projectService.update(new User(req.getParameter("username"),
-//                        req.getParameter("email"),
-//                        req.getParameter("password")));
             }
 
         } catch (NumberFormatException e) {
-            resp.getWriter().println("Invalid data");
+            errorHandler.handle(resp, req, "Invalid data", HttpServletResponse.SC_BAD_REQUEST);
         }
         resp.setContentType("text/html;charset=UTF-8");
         resp.sendRedirect(req.getContextPath() + "/home");

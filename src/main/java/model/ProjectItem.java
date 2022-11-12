@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class ProjectItem {
     private Long id;
     private Long projectId;
@@ -23,8 +25,16 @@ public class ProjectItem {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public boolean isDone() {
@@ -35,14 +45,6 @@ public class ProjectItem {
         this.done = done;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public Long getProjectId() {
         return projectId;
     }
@@ -51,4 +53,26 @@ public class ProjectItem {
         this.projectId = projectId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProjectItem that = (ProjectItem) o;
+        return done == that.done && Objects.equals(id, that.id) && Objects.equals(projectId, that.projectId) && Objects.equals(title, that.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, projectId, title, done);
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectItem{" +
+                "id=" + id +
+                ", projectId=" + projectId +
+                ", title='" + title + '\'' +
+                ", done=" + done +
+                '}';
+    }
 }

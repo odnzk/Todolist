@@ -21,6 +21,10 @@ public class ProjectItemService {
         projectItemDao.update(itemId);
     }
 
+    public void delete(Long itemId){
+        projectItemDao.delete(itemId);
+    }
+
     public Optional<Long> countAll() {
         return projectItemDao.count();
     }

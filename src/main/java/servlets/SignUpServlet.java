@@ -1,7 +1,5 @@
 package servlets;
 
-import exceptions.ConnectingDbException;
-import exceptions.LoadingDbException;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import listener.InitListener;
 import model.User;
 import services.AuthService;
+import validators.ErrorHandler;
 import validators.UserValidator;
 
 import java.io.IOException;
@@ -19,11 +18,15 @@ import java.io.IOException;
 @WebServlet("/signup")
 public class SignUpServlet extends HttpServlet {
     private AuthService service;
+    private UserValidator validator;
+    private ErrorHandler errorHandler;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         service = (AuthService) getServletContext().getAttribute(InitListener.KEY_AUTH_SERVICE);
+        validator = (UserValidator) getServletContext().getAttribute(InitListener.KEY_USER_VALIDATOR);
+        errorHandler = (ErrorHandler) getServletContext().getAttribute(InitListener.KEY_ERROR_HANDLER);
     }
 
     @Override
@@ -40,17 +43,16 @@ public class SignUpServlet extends HttpServlet {
         User user = new User(username, email, password);
 
         if (service.findUser(user.getUsername()).isPresent()) {
-            resp.getWriter().println("User with this username already exist");
+            errorHandler.handle(resp, req, "User with this username already exist", HttpServletResponse.SC_BAD_REQUEST);
         }
-        if (new UserValidator().validate(user)) {
+        if (validator.validate(user)) {
             service.auth(user, req);
             service.signup(user);
 
             resp.setContentType("text/html;charset=UTF-8");
             req.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
-
         } else {
-            resp.getWriter().println("Invalid data");
+            errorHandler.handle(resp, req, "Invalid data", HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 

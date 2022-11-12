@@ -29,7 +29,6 @@ public class ProjectItemDaoImpl implements ProjectItemDao {
 
     @Override
     public void insert(ProjectItem item) {
-        // projectId, title, is_completed
         jdbcTemplate.update(SQL_CREATE_PROJECT_ITEM, item.getProjectId(), item.getTitle(), item.isDone());
     }
 

@@ -43,11 +43,11 @@ public class UserValidator implements Validator<User> {
         if (checkIfNull(user.getUsername(), user.getEmail(), user.getPassword())) {
             return false;
         }
-        return true;
-//        return isAnyBlank(user.getPassword(), user.getEmail(), user.getUsername())
-//                && checkUsername(user.getUsername())
-//                && checkEmail(user.getEmail())
-//                && checkPassword(user.getPassword());
+//        return true;
+        return isAnyBlank(user.getPassword(), user.getEmail(), user.getUsername())
+                && checkUsername(user.getUsername())
+                && checkEmail(user.getEmail())
+                && checkPassword(user.getPassword());
     }
 
 }

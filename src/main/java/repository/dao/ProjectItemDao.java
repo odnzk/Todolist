@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface ProjectItemDao extends CrudDao<ProjectItem> {
     Optional<Long> count();
+
     Optional<List<ProjectItem>> findProjectItemsLinkedToProject(Long projectId);
 }

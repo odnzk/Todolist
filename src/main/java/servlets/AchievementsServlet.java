@@ -1,5 +1,6 @@
 package servlets;
 
+import exceptions.UserNotAuthorizedException;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,7 +13,7 @@ import model.User;
 import model.ui.UiUserAchievement;
 import services.AuthService;
 import services.UserAchievementService;
-import util.UserAchievementServiceHelper;
+import validators.ErrorHandler;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,24 +25,25 @@ import java.util.stream.Collectors;
 public class AchievementsServlet extends HttpServlet {
     private UserAchievementService userAchievementService;
     private AuthService service;
-    private UserAchievementServiceHelper userAchievementServiceHelper;
+    private ErrorHandler errorHandler;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         userAchievementService = (UserAchievementService) getServletContext().getAttribute(InitListener.KEY_USER_ACHIEVEMENT_SERVICE);
         service = (AuthService) getServletContext().getAttribute(InitListener.KEY_AUTH_SERVICE);
-        userAchievementServiceHelper = (UserAchievementServiceHelper) getServletContext().getAttribute(InitListener.KEY_USER_ACHIEVEMENT_SERVICE_HELPER);
+        errorHandler = (ErrorHandler) getServletContext().getAttribute(InitListener.KEY_ERROR_HANDLER);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = service.getCurrentUser(req);
+        User user = null;
+        try {
+            user = service.getCurrentUser(req);
+        } catch (UserNotAuthorizedException e) {
+            errorHandler.handle(resp, req, "Not authorized", HttpServletResponse.SC_UNAUTHORIZED);
+        }
 
-        userAchievementServiceHelper.unlockTenProjectItemCreated(user);
-
-        // get all achievements
-        // if user have
         Optional<List<Achievement>> userAchiv = userAchievementService.findAllUserAchievements(user);
         Optional<List<Achievement>> allAchiv = userAchievementService.findAllAchievements();
         if (allAchiv.isPresent() && userAchiv.isPresent()) {

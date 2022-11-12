@@ -1,12 +1,8 @@
 package util;
 
-import model.ProjectItem;
 import model.User;
 import services.ProjectItemService;
 import services.UserAchievementService;
-
-import java.util.List;
-import java.util.Optional;
 
 public class UserAchievementServiceHelper {
     private static final long ACH_ID_PROJECT_FINISHED = 6;
@@ -29,13 +25,6 @@ public class UserAchievementServiceHelper {
 
     public void unlockProjectFinished(User user) {
         userAchievementService.unlockAchievement(user.getId(), ACH_ID_PROJECT_FINISHED);
-        // if all linked projectItem if completed -> update project
-//        Optional<List<ProjectItem>> list = projectItemService.findProjectItemsLinkedToProject(projectItemId);
-//        if (list.isPresent()) {
-//            if (list.get().stream().allMatch(ProjectItem::isDone)) {
-//                userAchievementService.unlockAchievement(user.getId(), ACH_ID_PROJECT_FINISHED);
-//            }
-//        }
     }
 
     public void unlockTenProjectItemCreated(User user) {
@@ -61,9 +50,9 @@ public class UserAchievementServiceHelper {
     }
 
     public void unlockLogin(User user) {
-        // throw new NoSuchElementException("No value present");
         userAchievementService.unlockAchievement(user.getId(), ACH_ID_LOGIN);
     }
+
     public void unlockChangeProfile(User user) {
         userAchievementService.unlockAchievement(user.getId(), ACH_ID_CHANGE_PROFILE);
     }

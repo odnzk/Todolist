@@ -2,8 +2,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<%! String mes = ""; %>
-
 <t:mainLayout title="Sign up">
     <div class="d-flex align-items-center">
 
@@ -48,9 +46,5 @@
 
         </form>
     </div>
-
-        <div class="w-50">
-            <img class="w-100" src="<c:url value='/static/pic_signup.jpg'/>">
-        </div>
     </div>
 </t:mainLayout>

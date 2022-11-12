@@ -30,7 +30,6 @@ public class ProjectDaoImpl implements ProjectDao {
 
     @Override
     public void insert(Project item) {
-        // userId, title, is_completed, start_date, finish_date
         jdbcTemplate.update(SQL_CREATE_PROJECT, item.getUserId(), item.getTitle(), item.isCompleted(), item.getStartDate(), item.getDeadlineDate());
     }
 

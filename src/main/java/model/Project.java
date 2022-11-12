@@ -1,7 +1,7 @@
 package model;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.Objects;
 
 public class Project {
     private Long id;
@@ -10,14 +10,6 @@ public class Project {
     private boolean isCompleted;
     private Date startDate;
     private Date deadlineDate;
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 
     public Project(Long id, Long userId, String title, boolean isCompleted, Date startDate, Date deadlineDate) {
         this.id = id;
@@ -34,6 +26,14 @@ public class Project {
         this.isCompleted = false;
         this.startDate = startDate;
         this.deadlineDate = deadlineDate;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getId() {
@@ -74,5 +74,31 @@ public class Project {
 
     public void setDeadlineDate(Date deadlineDate) {
         this.deadlineDate = deadlineDate;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Project project = (Project) o;
+        return isCompleted == project.isCompleted && Objects.equals(id, project.id) && Objects.equals(userId, project.userId) && Objects.equals(title, project.title) && Objects.equals(startDate, project.startDate) && Objects.equals(deadlineDate, project.deadlineDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, title, isCompleted, startDate, deadlineDate);
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", title='" + title + '\'' +
+                ", isCompleted=" + isCompleted +
+                ", startDate=" + startDate +
+                ", deadlineDate=" + deadlineDate +
+                '}';
     }
 }

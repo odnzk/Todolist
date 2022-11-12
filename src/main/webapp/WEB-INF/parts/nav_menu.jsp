@@ -13,7 +13,7 @@
         <ul class="navbar-nav">
             <c:if test="${user != null}">
                 <li class="nav-item active">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/home">Home</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/achievements">Achievements</a>

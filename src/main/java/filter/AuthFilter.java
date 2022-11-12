@@ -13,8 +13,8 @@ import java.io.IOException;
 
 @WebFilter("/*")
 public class AuthFilter extends HttpFilter {
-    private final String[] secretPages = {"/profile", "/home", "/achievements",
-            "/addItem", "/add", "/clear", "/delete/*", "/updateProjectItem/*", "/updateUser"};
+    private final String[] secretPages = {"/profile", "", "/achievements",
+            "/addItem", "/add", "/clear", "/delete/*", "/updateProjectItem/*", "/updateUser", "/deleteitem"};
     private AuthService service;
 
 

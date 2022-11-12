@@ -4,6 +4,7 @@ import model.Project;
 import model.ProjectItem;
 
 import java.util.List;
+import java.util.Objects;
 
 public class UiProjectWithItems {
     private Project project;
@@ -16,15 +17,15 @@ public class UiProjectWithItems {
         this.progress = progress;
     }
 
+    public UiProjectWithItems() {
+    }
+
     public int getProgress() {
         return progress;
     }
 
     public void setProgress(int progress) {
         this.progress = progress;
-    }
-
-    public UiProjectWithItems() {
     }
 
     public Project getProject() {
@@ -41,5 +42,27 @@ public class UiProjectWithItems {
 
     public void setListProjectItem(List<ProjectItem> listProjectItem) {
         this.listProjectItem = listProjectItem;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UiProjectWithItems that = (UiProjectWithItems) o;
+        return progress == that.progress && Objects.equals(project, that.project) && Objects.equals(listProjectItem, that.listProjectItem);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(project, listProjectItem, progress);
+    }
+
+    @Override
+    public String toString() {
+        return "UiProjectWithItems{" +
+                "project=" + project +
+                ", listProjectItem=" + listProjectItem +
+                ", progress=" + progress +
+                '}';
     }
 }

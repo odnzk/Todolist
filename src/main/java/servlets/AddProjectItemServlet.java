@@ -12,6 +12,7 @@ import model.User;
 import services.AuthService;
 import services.ProjectItemService;
 import util.UserAchievementServiceHelper;
+import validators.ErrorHandler;
 
 import java.io.IOException;
 
@@ -19,12 +20,14 @@ import java.io.IOException;
 public class AddProjectItemServlet extends HttpServlet {
     private ProjectItemService projectItemService;
     private UserAchievementServiceHelper userAchievementServiceHelper;
+    private ErrorHandler errorHandler;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         projectItemService = (ProjectItemService) getServletContext().getAttribute(InitListener.KEY_PROJECT_ITEM_SERVICE);
         userAchievementServiceHelper = (UserAchievementServiceHelper) getServletContext().getAttribute(InitListener.KEY_USER_ACHIEVEMENT_SERVICE_HELPER);
+        errorHandler = (ErrorHandler) getServletContext().getAttribute(InitListener.KEY_ERROR_HANDLER);
     }
 
     @Override
@@ -35,10 +38,10 @@ public class AddProjectItemServlet extends HttpServlet {
             Long projectId = Long.parseLong(req.getParameter("projectId"));
             projectItemService.add(new ProjectItem(projectId, title));
 
-
+            userAchievementServiceHelper.unlockTenProjectItemCreated(user);
             userAchievementServiceHelper.unlockFirstProjectItemCreated(user);
         } catch (NumberFormatException e) {
-            req.setAttribute("message", "Invalid project id");
+            errorHandler.handle(resp, req, "Invalid project id", HttpServletResponse.SC_NOT_FOUND);
         }
         resp.setContentType("text/html;charset=UTF-8");
         resp.sendRedirect(req.getContextPath() + "/home");

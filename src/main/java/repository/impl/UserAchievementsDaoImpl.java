@@ -53,11 +53,11 @@ public class UserAchievementsDaoImpl implements UserAchievementDao {
         }
     }
 
-    public boolean isAchievementUnlocked(Long achivId){
-        try{
-           jdbcTemplate.queryForObject(SQL_SELECT_BY_ACHIV_ID, Integer.class, achivId);
-           return true;
-        }catch (EmptyResultDataAccessException e){
+    public boolean isAchievementUnlocked(Long achivId) {
+        try {
+            jdbcTemplate.queryForObject(SQL_SELECT_BY_ACHIV_ID, Integer.class, achivId);
+            return true;
+        } catch (EmptyResultDataAccessException e) {
             return false;
         }
     }

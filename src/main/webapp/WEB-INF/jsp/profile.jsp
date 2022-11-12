@@ -52,7 +52,7 @@
             </div>
 
             <input class="btn btn-primary w-100" type="submit" value="Change profile data">
-            <br>
+            <br><br>
             <button class="btn btn-primary w-100" id="logout">Logout</button>
         </form>
     </div>

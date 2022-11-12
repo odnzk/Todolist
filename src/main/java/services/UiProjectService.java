@@ -7,7 +7,6 @@ import model.ui.UiProjectWithItems;
 import repository.dao.ProjectDao;
 import repository.dao.ProjectItemDao;
 
-import java.util.Comparator;
 import java.util.List;
 
 
@@ -22,8 +21,8 @@ public class UiProjectService {
 
     public List<UiProjectWithItems> getAllUiProjects(User user) {
         List<UiProjectWithItems> uiProjects = new java.util.ArrayList<>(List.of());
-
         List<Project> projectList = projectDao.findProjectsLinkedToUser(user.getId()).orElse(List.of());
+
         for (Project project : projectList) {
             List<ProjectItem> items = projectItemDao.findProjectItemsLinkedToProject(project.getId()).orElse(List.of());
             long countItems = items.size();

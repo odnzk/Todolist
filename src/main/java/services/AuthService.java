@@ -1,5 +1,6 @@
 package services;
 
+import exceptions.UserNotAuthorizedException;
 import jakarta.servlet.http.HttpServletRequest;
 import model.User;
 import repository.impl.UserDaoImpl;
@@ -18,13 +19,11 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // todo check ???
-    public User getCurrentUser(HttpServletRequest req) {
-        if(isAuth(req)){
+    public User getCurrentUser(HttpServletRequest req) throws UserNotAuthorizedException {
+        if (isAuth(req)) {
             return (User) req.getSession().getAttribute(USER_ATTRIBUTE);
-        }else{
-            return new User("", "", "");
-            // throw smth?
+        } else {
+           throw new UserNotAuthorizedException("Session user attribute is null");
         }
     }
 

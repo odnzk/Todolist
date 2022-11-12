@@ -12,6 +12,7 @@ import model.User;
 import services.AuthService;
 import services.ProjectService;
 import util.UserAchievementServiceHelper;
+import validators.ErrorHandler;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -25,12 +26,14 @@ public class AddProjectServlet extends HttpServlet {
     private static final String DATE_PATTERN = "yyyy-MM-dd";
     private ProjectService projectService;
     private UserAchievementServiceHelper userAchievementServiceHelper;
+    private ErrorHandler errorHandler;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         projectService = (ProjectService) getServletContext().getAttribute(InitListener.KEY_PROJECT_SERVICE);
         userAchievementServiceHelper = (UserAchievementServiceHelper) getServletContext().getAttribute(InitListener.KEY_USER_ACHIEVEMENT_SERVICE_HELPER);
+        errorHandler = (ErrorHandler) getServletContext().getAttribute(InitListener.KEY_ERROR_HANDLER);
     }
 
     @Override
@@ -46,9 +49,8 @@ public class AddProjectServlet extends HttpServlet {
 
             userAchievementServiceHelper.unlockFirstProject(user);
         } catch (ParseException e) {
-            req.setAttribute("message", "Invalid date");
+            errorHandler.handle(resp, req, "Invalid date", HttpServletResponse.SC_BAD_REQUEST);
         }
-
         resp.setContentType("text/html;charset=UTF-8");
         resp.sendRedirect(req.getContextPath() + "/home");
     }

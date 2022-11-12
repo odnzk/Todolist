@@ -14,25 +14,23 @@
 
             const btnAdd = document.getElementById('addProject');
             const btnClear = document.getElementById('clearAll');
-            const btnDeleteProject = document.getElementById('deleteProject');
 
             function addProject() {
-                $('#addProjectModal').modal('show');
-
+                // $('#addProjectModal').modal('show')
+                // document.getElementById('addProjectModal')
+                let myModal = new bootstrap.Modal(document.getElementById('addProjectModal'), {});
+                document.onreadystatechange = function () {
+                    myModal.show();
+                };
             }
 
             function clearAllProjects() {
                 $('#clearAllModal').modal('show');
             }
 
-            function deleteProject() {
-                const id = btnDeleteProject.classList.item(btnDeleteProject.classList.length - 1)
-                document.location = '${pageContext.request.contextPath}/delete/' + id;
-            }
-
             function updateProjectItem(checkbox) {
                 const id = checkbox.classList.item(checkbox.classList.length - 1)
-                document.location = '${pageContext.request.contextPath}/updateProjectItem/' + id;
+                document.location = '${pageContext.request.contextPath}/updateProjectItem?id=' + id;
             }
 
             if (btnAdd) {
@@ -41,15 +39,14 @@
             if (btnClear) {
                 btnClear.addEventListener('click', clearAllProjects)
             }
-            if (btnDeleteProject) {
-                btnDeleteProject.addEventListener('click', deleteProject)
-            }
 
             Array.prototype
                 .slice
                 .call(document.getElementsByClassName('checkbox-project-item')).forEach(
                 cb => {
-                    cb.addEventListener('click', function () { updateProjectItem(cb); })
+                    cb.addEventListener('click', function () {
+                        updateProjectItem(cb);
+                    })
                 }
             )
         });</script>
@@ -63,8 +60,10 @@
 
         <h3 class=""><b>List of projects</b></h3>
         <div class="d-flex justify-content-end">
-            <button id="addProject" type="button" class="btn btn-primary pl-24 pr-24  mr-1"><i class="bi bi-plus"></i></button>
-            <button id="clearAll" type="button" class="btn btn-primary pl-24 pr-24"><i class="bi bi-trash-fill"></i></button>
+            <button id="addProject" type="button" class="btn btn-primary pl-24 pr-24  mr-1"><i class="bi bi-plus"></i>
+            </button>
+            <button id="clearAll" type="button" class="btn btn-primary pl-24 pr-24"><i class="bi bi-trash-fill"></i>
+            </button>
         </div>
     </div>
 
@@ -81,9 +80,13 @@
             <div class="card mt-2" style="width: 20rem;">
                 <div class="card-body">
 
-                    <i class="bi bi-x-square-fill float-end ${uiProject.project.id}" id="deleteProject"></i>
+                    <a class="" href="${pageContext.request.contextPath}/delete?id=${uiProject.project.id}">
+                        <i class="bi bi-x-square-fill float-end"></i>
+                    </a>
 
                     <h5 class="card-title">${uiProject.project.title}</h5>
+
+                    <p class=""><b>Deadline:</b> ${uiProject.project.deadlineDate}</p>
 
                     <div class="progress">
                         <div class="progress-bar progress-bar-striped" role="progressbar"
@@ -95,16 +98,21 @@
                     </br>
                     <ul class="list-group">
                         <c:forEach var="uiProjectItem" items="${uiProject.listProjectItem}">
-                            <li class="list-group-item">
-                                <div class="form-check">
-                                    <input class="form-check-input checkbox-project-item ${uiProjectItem.id}"
-                                           type="checkbox" value=""
-                                           <c:if test="${uiProjectItem.done}">checked</c:if>>
-                                    <label class="form-check-label project-item-label <c:if test="${uiProjectItem.done}">completed-project-item</c:if>">
-                                            ${uiProjectItem.title}
-                                    </label>
-                                </div>
-                            </li>
+
+                            <t:projectItemLayout uiProjectItem="${uiProjectItem}">
+
+                            </t:projectItemLayout>
+                            <%--                            <li class="list-group-item">--%>
+                            <%--                                <div class="form-check">--%>
+                            <%--                                    <input class="form-check-input checkbox-project-item ${uiProjectItem.id}"--%>
+                            <%--                                           type="checkbox" value=""--%>
+                            <%--                                           <c:if test="${uiProjectItem.done}">checked</c:if>>--%>
+                            <%--                                    <label class="form-check-label project-item-label <c:if test="${uiProjectItem.done}">completed-project-item</c:if>">--%>
+                            <%--                                            ${uiProjectItem.title}--%>
+                            <%--                                    </label>--%>
+                            <%--                                </div>--%>
+                            <%--                            </li>--%>
+
                         </c:forEach>
                     </ul>
                     <br>

@@ -9,6 +9,7 @@ import listener.InitListener;
 import model.User;
 import services.AuthService;
 import util.UserAchievementServiceHelper;
+import validators.ErrorHandler;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -17,12 +18,14 @@ import java.util.Optional;
 public class LoginServlet extends HttpServlet {
     private AuthService service;
     private UserAchievementServiceHelper userAchievementServiceHelper;
+    private ErrorHandler errorHandler;
 
     @Override
     public void init() throws ServletException {
         super.init();
         service = (AuthService) getServletContext().getAttribute(InitListener.KEY_AUTH_SERVICE);
         userAchievementServiceHelper = (UserAchievementServiceHelper) getServletContext().getAttribute(InitListener.KEY_USER_ACHIEVEMENT_SERVICE_HELPER);
+        errorHandler = (ErrorHandler) getServletContext().getAttribute(InitListener.KEY_ERROR_HANDLER);
     }
 
     @Override
@@ -38,7 +41,7 @@ public class LoginServlet extends HttpServlet {
 
         Optional<User> user = service.findUser(username);
         if (user.isEmpty()) {
-            resp.getWriter().println("There is no user with this username");
+            errorHandler.handle(resp, req, "There is no user with this username", HttpServletResponse.SC_NOT_FOUND);
         } else {
             if (service.login(username, password)) {
                 service.auth(user.get(), req);
@@ -48,7 +51,7 @@ public class LoginServlet extends HttpServlet {
                 resp.setContentType("text/html;charset=UTF-8");
                 resp.sendRedirect(req.getContextPath() + "/home");
             } else {
-                resp.getWriter().println("Wrong password");
+                errorHandler.handle(resp, req, "Wrong password", HttpServletResponse.SC_BAD_REQUEST);
             }
         }
     }

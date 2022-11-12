@@ -14,7 +14,7 @@ public class ProjectItemMapper implements RowMapper<ProjectItem> {
         Long id = resultSet.getLong("id");
         Long projectId = resultSet.getLong("projectid");
         String title = resultSet.getString("title");
-        Boolean isCompleted = resultSet.getBoolean("is_completed");
+        boolean isCompleted = resultSet.getBoolean("is_completed");
         return new ProjectItem(id, projectId, title, isCompleted);
     }
 }

@@ -27,9 +27,5 @@
 
             </form>
         </div>
-
-        <div class="w-50">
-            <img class="w-100" src="<c:url value='/static/pic_login.jpg'/>">
-        </div>
     </div>
 </t:mainLayout>

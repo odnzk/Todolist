@@ -15,7 +15,7 @@ import services.UiProjectService;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/home")
+@WebServlet("/")
 public class MainPageServlet extends HttpServlet {
     private UiProjectService projectService;
 

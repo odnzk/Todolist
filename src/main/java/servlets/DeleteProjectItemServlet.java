@@ -7,25 +7,20 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import listener.InitListener;
-import model.User;
-import services.AuthService;
-import services.ProjectService;
-import util.UserAchievementServiceHelper;
+import services.ProjectItemService;
 import validators.ErrorHandler;
 
 import java.io.IOException;
 
-@WebServlet("/delete")
-public class DeleteProjectServlet extends HttpServlet {
-    private ProjectService projectService;
-    private UserAchievementServiceHelper userAchievementServiceHelper;
+@WebServlet("/deleteitem")
+public class DeleteProjectItemServlet extends HttpServlet {
+    private ProjectItemService projectItemService;
     private ErrorHandler errorHandler;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        projectService = (ProjectService) getServletContext().getAttribute(InitListener.KEY_PROJECT_SERVICE);
-        userAchievementServiceHelper = (UserAchievementServiceHelper) getServletContext().getAttribute(InitListener.KEY_USER_ACHIEVEMENT_SERVICE_HELPER);
+        projectItemService = (ProjectItemService) getServletContext().getAttribute(InitListener.KEY_PROJECT_ITEM_SERVICE);
         errorHandler = (ErrorHandler) getServletContext().getAttribute(InitListener.KEY_ERROR_HANDLER);
     }
 
@@ -35,12 +30,10 @@ public class DeleteProjectServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = (User) req.getSession().getAttribute(AuthService.USER_ATTRIBUTE);
         String strProjectId = req.getParameter("id");
         try {
             Long projectId = Long.parseLong(strProjectId);
-            projectService.delete(projectId);
-            userAchievementServiceHelper.unlockDeleteProject(user);
+            projectItemService.delete(projectId);
         } catch (NumberFormatException e) {
             errorHandler.handle(resp, req, "Invalid data", HttpServletResponse.SC_BAD_REQUEST);
         }
