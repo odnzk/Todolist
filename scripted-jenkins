@@ -1,18 +1,10 @@
 node {
-    def mavenHome = tool name :"mvn3.9.1"
+    def mavenHome = tool name : "mvn3.9.1"
     //checkout stage
-    stage('checkout code'){
+    stage ('checkout Code') {
         git 'https://github.com/sudip243/Todolist.git'
     }
-    //build stage
-    stage('build'){
+    stage ('Build') {
         sh "$mavenHome/bin/mvn clean package"
     }
-    //deploy app into tomcat
-     stage("deploy app into tomcat"){
-         sshagent(['99b72b94-4f0c-4f2f-9957-0a475182f94f']) {
-    // some block
-    sh "scp -O StrictHostKeyChecking=no target/SemesterProject.war ubuntu@13.58.199.119/opt/apache-tomcat-10.1.7/webapps"
-}
-     }
-}
+}//closing node
