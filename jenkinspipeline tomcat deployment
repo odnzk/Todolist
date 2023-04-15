@@ -1,0 +1,17 @@
+node {
+    //checkout stage
+    stage ('checkout'){
+        git 'https://github.com/sudip243/Todolist.git'
+    }
+    //build stage
+    stage ('build'){
+        sh "mvn clean package"
+    }
+    //deploy app into tomacat server
+    stage ('deploy into tomcat'){
+        sshagent(['9c752a68-2ab7-4ce5-98d3-651ae91cfb14']) {
+    sh "scp -o StrictHostKeyChecking=no target/SemesterProject.war ubuntu@172.31.94.104:/opt/apache-tomcat-9.0.73/webapps"
+}
+    }
+    
+}//closing node
