@@ -1,0 +1,26 @@
+node{
+    def buildNumber = BUILD_NUMBER
+    stage("Git Clone"){
+        git 'https://github.com/sudip243/Todolist.git'
+    }
+    stage("Maven Clean Package"){
+        def mavenHome= tool name: "mvn3.9.2",type: "maven"
+        sh "${mavenHome}/bin/mvn clean package"
+    }
+    stage("Build Docker Image"){
+        sh "docker build -t sudipto243/java-web-app:${buildNumber} ."
+    }
+    stage("Docker login and Push"){
+        withCredentials([string(credentialsId: 'dockerhubpass', variable: 'dockerhubpass')]) {
+            sh "docker login -u sudipto243 -p ${dockerhubpass}"
+}
+        sh "docker push sudipto243/java-web-app:${buildNumber}"
+    }
+    stage("Deploy application as docker container in docker deployment server"){
+        sshagent(['docker_dev_server_ssh']) {
+          sh "ssh -o StrictHostkeyChecking=no ubuntu@172.31.0.85 docker rm -f javawebappcontainer || true"
+          sh "ssh -o StrictHostkeyChecking=no ubuntu@172.31.0.85 docker run -d -p 8080:8080 --name javawebappcontainer sudipto243/java-web-app:${buildNumber}"
+}
+    }
+}
+
