@@ -1,0 +1,27 @@
+pipeline {
+    triggers {
+  pollSCM '* * * * *'
+}
+    options {
+  buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '2', numToKeepStr: '2')
+}
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "mvn3.9.1"
+    }
+
+    stages {
+        stage('checkoutcode') {
+            steps {
+                 git 'https://github.com/sudip243/Todolist.git'
+                }
+                }
+        stage('build') {
+            steps {
+                sh "mvn clean package"
+                }
+            }
+            }
+}

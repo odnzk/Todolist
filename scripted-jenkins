@@ -1,0 +1,10 @@
+node {
+    def mavenHome = tool name : "mvn3.9.1"
+    //checkout stage
+    stage ('checkout Code') {
+        git 'https://github.com/sudip243/Todolist.git'
+    }
+    stage ('Build') {
+        sh "$mavenHome/bin/mvn clean package"
+    }
+}//closing node
