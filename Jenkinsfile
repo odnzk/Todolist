@@ -1,10 +1,6 @@
 pipeline {
     agent any 
 
-    environment {
-        DEPLOY_USER_CREDENTIALS = credentials('deploy_server')
-    }
-
     stages {
         stage("Checkout") {
             steps {
@@ -27,19 +23,14 @@ pipeline {
                 sh "mvn package"
             }
         }
-        stage("Deploy") {
+        stage ("Docker-Build") {
             steps {
-                script {
-                    sshagent(credentials: ['${DEPLOY_USER_CREDENTIALS}']) {
-                        def scpResult = sh(script: "scp -o StrictHostKeyChecking=no java-mvn-tomcat9-job/target/SemesterProject.war ubuntu@172.31.34.101:/opt/apache-tomcat-9.0.65/webapps", returnStatus: true)
-                        
-                        if (scpResult == 0) {
-                            echo "Deployment successful!"
-                        } else {
-                            error "Deployment failed with exit code ${scpResult}"
-                        }
-                    }
-                }
+                sh "Docker build -t ash2code/todo-list ."
+            }
+        } 
+        stage ("Docker-Run") {
+            steps {
+                sh "Docker container run -dt -p 8085:8080 --name todo ash2code/todo-list"
             }
         }
     }
