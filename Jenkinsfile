@@ -25,12 +25,12 @@ pipeline {
         }
         stage ("Docker-Build") {
             steps {
-                sh "Docker build -t ash2code/todo-list ."
+                sh "docker build -t ash2code/todo-list ."
             }
         } 
         stage ("Docker-Run") {
             steps {
-                sh "Docker container run -dt -p 8085:8080 --name todo ash2code/todo-list"
+                sh "docker container run -dt -p 8085:8080 --name todo ash2code/todo-list"
             }
         }
     }
