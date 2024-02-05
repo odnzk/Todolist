@@ -2,7 +2,7 @@ pipeline {
     agent any 
 
     environment {
-        DEPLOY_USER_CREDENTIALS = credentials('deploy_user')
+        DEPLOY_USER_CREDENTIALS = credentials('deploy_server')
     }
 
     stages {
